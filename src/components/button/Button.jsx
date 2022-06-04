@@ -35,6 +35,12 @@ const ButtonStyles = styled.button`
       color: ${(props) => props.theme.primary};
       background-color: rgba(29, 192, 113, 0.1);
     `};
+  ${(props) =>
+    props.kind === "favourite" &&
+    css`
+      color: white;
+      background-color: ${(props) => props.theme.primary};
+    `};
   height: ${(props) => props.height || "66px"};
   display: flex;
   justify-content: center;

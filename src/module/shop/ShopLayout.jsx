@@ -303,6 +303,9 @@ const ShopLayout = (props) => {
                 </div>
               </div>
             </Modal>
+            <p>Hello</p>
+            <p>Hello</p>
+            <h3>duma</h3>
           </div>
         </div>
       </div>
