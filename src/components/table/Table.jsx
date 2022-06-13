@@ -3,34 +3,32 @@ import styled from "styled-components";
 const TableStyles = styled.div`
   overflow-x: auto;
   background-color: white;
-
+  border-radius: 10px;
   table {
-    width: ${(props) => props.wc || "100%"};
+    width: 100%;
   }
   thead {
-    background-color: ${(props) => props.wc || "#fff"};
+    background-color: #f7f7f8;
   }
   th,
   td {
     vertical-align: middle;
   }
   th {
-    padding: ${(props) => props.padding || "20px 30px "};
+    padding: 20px 30px;
     font-weight: 600;
     text-align: left;
   }
   td {
-    padding: ${(props) => props.padding || "20px 30px "};
+    padding: 15px 30px;
   }
   tbody {
   }
 `;
-const Table = ({ children, ...props }) => {
+const Table = ({ children, className }) => {
   return (
     <TableStyles>
-      <table className="border-collapse border border-slate-500">
-        {children}
-      </table>
+      <table className={className}>{children}</table>
     </TableStyles>
   );
 };

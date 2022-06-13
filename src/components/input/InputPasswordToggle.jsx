@@ -3,13 +3,13 @@ import IconEyeClose from "../Icon/IconEyeClose";
 import IconEyeOpen from "../Icon/IconEyeOpen";
 import Input from "./Input";
 
-const InputPasswordToggle = ({ control }) => {
+const InputPasswordToggle = ({ control, name = "" }) => {
   const [togglePassword, setTogglePassword] = useState(false);
   if (!control) return null;
   return (
     <Fragment>
       <Input
-        name="password"
+        name={name}
         type={togglePassword ? "text" : "password"}
         placeholder="Enter your password"
         control={control}

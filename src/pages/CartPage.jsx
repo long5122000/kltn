@@ -9,7 +9,11 @@ const CartPage = () => {
         <h2 className="font-medium text-center text-4xl my-5">Shopping Cart</h2>
         <div className="grid grid-cols-4 gap-3">
           <div className="col-span-3 ">
-            <Table>
+            <Table
+              className={
+                "border-collapse border border-slate-500 overflow-hidden"
+              }
+            >
               <thead>
                 <tr>
                   <th className="border border-[#dee2e6]">Item</th>

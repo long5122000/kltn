@@ -13,4 +13,23 @@ export const theme = {
   gray80: "#808191",
   grayeb: "#ebebeb",
   black: "#171725",
+  db: "#294770",
+};
+export const bannerStatus = {
+  APPROVED: 1,
+  UNAPPROVED: 2,
+};
+export const categoryStatus = {
+  APPROVED: 1,
+  UNAPPROVED: 2,
+};
+export const userStatus = {
+  ACTIVE: 1,
+  PENDING: 2,
+  BAN: 3,
+};
+export const userRole = {
+  ADMIN: 1,
+  MOD: 2,
+  USER: 3,
 };

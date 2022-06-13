@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useAuth } from "../../contexts/auth-context";
 
 const menuLinks = [
   {
@@ -21,6 +22,8 @@ const menuLinks = [
 ];
 console.log(menuLinks);
 const HeaderTop = ({ contact }) => {
+  const { userInfo } = useAuth();
+  console.log(userInfo);
   return (
     <div className="  border-b-[1px] border-rgba-border ">
       <div className="container flex justify-between py-2 items-center">
