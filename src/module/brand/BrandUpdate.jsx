@@ -16,72 +16,66 @@ import Input from "../../components/input/Input";
 import Label from "../../components/label/Label";
 import { db } from "../../firebase-app/firebase-config";
 import useFirebaseImage from "../../hook/useFirebaseImage";
-import { bannerStatus, categoryStatus } from "../../utils/constants";
+import {
+  bannerStatus,
+  brandStatus,
+  categoryStatus,
+} from "../../utils/constants";
 import DashboardHeading from "../dashboard/DashBoardHeading";
 import { toast } from "react-toastify";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { stringify } from "@firebase/util";
 import slugify from "slugify";
 
-const CategoryUpdate = () => {
+const BrandUpdate = () => {
   const {
     control,
     reset,
     watch,
     handleSubmit,
-    getValues,
-    setValue,
     formState: { isSubmitting },
   } = useForm({
     mode: "onChange",
     defaultValues: {},
   });
-  const imageUrl = getValues("image");
-  const imageName = getValues("image_name");
-  const { image, setImage, progress, handleSelectImage, handleDeleteImage } =
-    useFirebaseImage(setValue, getValues, imageName);
-  useEffect(() => {
-    setImage(imageUrl);
-  }, [imageUrl, setImage]);
   const [params] = useSearchParams();
-  const categoryId = params.get("id");
+  const brandId = params.get("id");
   const navigate = useNavigate();
   useEffect(() => {
     async function fetchData() {
-      const colRef = doc(db, "categories", categoryId);
+      const colRef = doc(db, "brands", brandId);
       const singleDoc = await getDoc(colRef);
       reset(singleDoc.data());
     }
     fetchData();
-  }, [categoryId, reset]);
+  }, [brandId, reset]);
   const watchStatus = watch("status");
-  const handleUpdateCategory = async (values) => {
-    const colRef = doc(db, "categories", categoryId);
+  const handleUpdateBrand = async (values) => {
+    const colRef = doc(db, "brands", brandId);
     await updateDoc(colRef, {
       name: values.name,
-      image,
       slug: slugify(values.slug || values.name, { lower: true }),
       status: Number(values.status),
     });
-    toast.success("Update Category Successfully");
-    navigate("/manage/category");
+    toast.success("Update Brand Successfully");
+    navigate("/manage/brands");
   };
-  if (!categoryId) return null;
+  if (!brandId) return null;
 
   return (
     <div>
       <DashboardHeading
-        title="Update Category"
-        desc={`Update your category id ${categoryId}`}
+        title="Update Brand"
+        desc={`Update your brand id ${brandId}`}
       ></DashboardHeading>
-      <form onSubmit={handleSubmit(handleUpdateCategory)}>
+      <form onSubmit={handleSubmit(handleUpdateBrand)}>
         <div className="form-layout">
           <Field>
             <Label>Name</Label>
             <Input
               control={control}
               name="name"
-              placeholder="Enter your category name"
+              placeholder="Enter your brand name"
               required
             ></Input>
           </Field>
@@ -101,30 +95,20 @@ const CategoryUpdate = () => {
               <Radio
                 name="status"
                 control={control}
-                checked={Number(watchStatus) === categoryStatus.APPROVED}
-                value={categoryStatus.APPROVED}
+                checked={Number(watchStatus) === brandStatus.APPROVED}
+                value={brandStatus.APPROVED}
               >
                 Approved
               </Radio>
               <Radio
                 name="status"
                 control={control}
-                checked={Number(watchStatus) === categoryStatus.UNAPPROVED}
-                value={categoryStatus.UNAPPROVED}
+                checked={Number(watchStatus) === brandStatus.UNAPPROVED}
+                value={brandStatus.UNAPPROVED}
               >
                 Unapproved
               </Radio>
             </div>
-          </Field>
-          <Field>
-            <Label>Image</Label>
-            <ImageUpload
-              onChange={handleSelectImage}
-              progress={progress}
-              image={image}
-              handleDeleteImage={handleDeleteImage}
-              className="h-[300px]"
-            ></ImageUpload>
           </Field>
         </div>
         <Button
@@ -134,11 +118,11 @@ const CategoryUpdate = () => {
           disabled={isSubmitting}
           isLoading={isSubmitting}
         >
-          Update category
+          Update brand
         </Button>
       </form>
     </div>
   );
 };
 
-export default CategoryUpdate;
+export default BrandUpdate;

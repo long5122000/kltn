@@ -7,11 +7,16 @@ import { AuthProvider } from "./contexts/auth-context";
 import BannerAddNew from "./module/banner/BannerAddNew";
 import BannerManage from "./module/banner/BannerManage";
 import BannerUpdate from "./module/banner/BannerUpdate";
+import BrandAddnew from "./module/brand/BrandAddnew";
+import BrandManage from "./module/brand/BrandManage";
+import BrandUpdate from "./module/brand/BrandUpdate";
 import CategoryAddNew from "./module/category/CategoryAddNew";
 import CategoryManage from "./module/category/CategoryManage";
 import CategoryUpdate from "./module/category/CategoryUpdate";
 import DashboardLayout from "./module/dashboard/DashBoardLayout";
 import ProductAddNew from "./module/produce/ProductAddNew";
+import ProductManage from "./module/produce/ProductManage";
+import ProductUpdate from "./module/produce/ProductUpdate";
 import ShopLayout from "./module/shop/ShopLayout";
 import UserAddNew from "./module/user/UserAddNew";
 import UserManage from "./module/user/UserManage";
@@ -90,6 +95,26 @@ function App() {
             <Route
               path="/manage/add-product"
               element={<ProductAddNew></ProductAddNew>}
+            ></Route>
+            <Route
+              path="/manage/products"
+              element={<ProductManage></ProductManage>}
+            ></Route>
+            <Route
+              path="/manage/add-brand"
+              element={<BrandAddnew></BrandAddnew>}
+            ></Route>
+            <Route
+              path="/manage/brands"
+              element={<BrandManage></BrandManage>}
+            ></Route>
+            <Route
+              path="/manage/update-brand"
+              element={<BrandUpdate></BrandUpdate>}
+            ></Route>
+            <Route
+              path="/manage/update-product"
+              element={<ProductUpdate></ProductUpdate>}
             ></Route>
             {/* <Route
               path="/manage/posts"

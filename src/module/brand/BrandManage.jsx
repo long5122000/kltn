@@ -21,21 +21,21 @@ import ActionEdit from "../../components/action/ActionEdit";
 import Table from "../../components/table/Table";
 import DashboardHeading from "../dashboard/DashBoardHeading";
 import { db } from "../../firebase-app/firebase-config";
-import { bannerStatus, bannerType } from "../../utils/constants";
+import { brandStatus, categoryStatus } from "../../utils/constants";
+const BRAND_PER_PAGE = 1;
 
-const BANNER_PER_PAGE = 1;
-
-const BannerManage = () => {
-  const [bannerList, setBannerList] = useState([]);
+const BrandManage = () => {
+  const [brandList, setBrandList] = useState([]);
   const navigate = useNavigate();
   const [filter, setFilter] = useState(undefined);
   const [lastDoc, setLastDoc] = useState();
   const [total, setTotal] = useState(0);
-  const handleLoadMoreBanner = async () => {
+
+  const handleLoadMoreBrand = async () => {
     const nextRef = query(
-      collection(db, "banner"),
+      collection(db, "brands"),
       startAfter(lastDoc || 0),
-      limit(BANNER_PER_PAGE)
+      limit(BRAND_PER_PAGE)
     );
 
     onSnapshot(nextRef, (snapshot) => {
@@ -46,7 +46,7 @@ const BannerManage = () => {
           ...doc.data(),
         });
       });
-      setBannerList([...bannerList, ...results]);
+      setBrandList([...brandList, ...results]);
     });
     const documentSnapshots = await getDocs(nextRef);
     const lastVisible =
@@ -55,14 +55,14 @@ const BannerManage = () => {
   };
   useEffect(() => {
     async function fetchData() {
-      const colRef = collection(db, "banner");
+      const colRef = collection(db, "brands");
       const newRef = filter
         ? query(
             colRef,
-            where("title", ">=", filter),
-            where("title", "<=", filter + "utf8")
+            where("name", ">=", filter),
+            where("name", "<=", filter + "utf8")
           )
-        : query(colRef, limit(BANNER_PER_PAGE));
+        : query(colRef, limit(BRAND_PER_PAGE));
       const documentSnapshots = await getDocs(newRef);
       const lastVisible =
         documentSnapshots.docs[documentSnapshots.docs.length - 1];
@@ -80,15 +80,15 @@ const BannerManage = () => {
             ...doc.data(),
           });
         });
-        setBannerList(results);
+        setBrandList(results);
       });
 
       setLastDoc(lastVisible);
     }
     fetchData();
   }, [filter]);
-  const handleDeleteBanner = async (docId) => {
-    const colRef = doc(db, "banner", docId);
+  const handleDeleteBrand = async (docId) => {
+    const colRef = doc(db, "brands", docId);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -109,15 +109,15 @@ const BannerManage = () => {
   }, 500);
   return (
     <div>
-      <DashboardHeading title="Banners" desc="Manage your Banner">
-        <Button kind="ghost" height="60px" to="/manage/add-banner">
-          Create banner
+      <DashboardHeading title="Brands" desc="Manage your brand">
+        <Button kind="ghost" height="60px" to="/manage/add-brand">
+          Create brand
         </Button>
       </DashboardHeading>
       <div className="flex justify-end mb-10">
         <input
           type="text"
-          placeholder="Search category..."
+          placeholder="Search brand..."
           className="px-5 py-4 border border-gray-300 rounded-lg outline-none"
           onChange={handleInputFilter}
         />
@@ -126,60 +126,41 @@ const BannerManage = () => {
         <thead>
           <tr>
             <th>Id</th>
-            <th>Title</th>
-            <th>Image</th>
-            <th>Desc</th>
-            <th>Status</th>
+            <th>Name</th>
+            <th>Slug</th>
             <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {bannerList.length > 0 &&
-            bannerList.map((banner) => (
-              <tr key={banner.id}>
-                <td title={banner.id}>{banner.id.slice(0, 5) + "..."}</td>
-                <td title={banner.title}>
-                  {banner.title.slice(0, 30) + "..."}
+          {brandList.length > 0 &&
+            brandList.map((brand) => (
+              <tr key={brand.id}>
+                <td>{brand.id}</td>
+                <td>{brand.name}</td>
+                <td>
+                  <span className="italic text-gray-400">{brand.slug}</span>
                 </td>
                 <td>
-                  <div className="w-[66px]">
-                    <img
-                      src={banner.image}
-                      alt=""
-                      className="w-[66px] h-[55px] rounded object-cover"
-                    />
-                  </div>
-                </td>
-                <td title={banner.desc}>{banner.desc.slice(0, 30) + "..."}</td>
-                <td>
-                  {Number(banner.status) === bannerStatus.APPROVED && (
+                  {Number(brand.status) === brandStatus.APPROVED && (
                     <LabelStatus type="success">Approved</LabelStatus>
                   )}
-                  {Number(banner.status) === bannerStatus.UNAPPROVED && (
+                  {Number(brand.status) === brandStatus.UNAPPROVED && (
                     <LabelStatus type="warning">Unapproved</LabelStatus>
-                  )}
-                </td>
-                <td>
-                  {Number(banner.type) === bannerType.MAINBANNER && (
-                    <LabelStatus type="success">Main Banner</LabelStatus>
-                  )}
-                  {Number(banner.type) === bannerType.SUBBANNER && (
-                    <LabelStatus type="warning">Sub Banner</LabelStatus>
                   )}
                 </td>
                 <td>
                   <div className="flex items-center gap-x-3 text-gray-500">
                     <ActionView
-                      onClick={() => navigate(`/banner/${banner.slug}`)}
+                      onClick={() => navigate(`/brand/${brand.slug}`)}
                     ></ActionView>
                     <ActionEdit
                       onClick={() =>
-                        navigate(`/manage/update-banner?id=${banner.id}`)
+                        navigate(`/manage/update-brand?id=${brand.id}`)
                       }
                     ></ActionEdit>
                     <ActionDelete
-                      onClick={() => handleDeleteBanner(banner.id)}
+                      onClick={() => handleDeleteBrand(brand.id)}
                     ></ActionDelete>
                   </div>
                 </td>
@@ -187,9 +168,9 @@ const BannerManage = () => {
             ))}
         </tbody>
       </Table>
-      {total > bannerList.length && (
+      {total > brandList.length && (
         <div className="mt-10">
-          <Button onClick={handleLoadMoreBanner} className="mx-auto">
+          <Button onClick={handleLoadMoreBrand} className="mx-auto">
             Load more
           </Button>
           {total}
@@ -199,4 +180,4 @@ const BannerManage = () => {
   );
 };
 
-export default BannerManage;
+export default BrandManage;

@@ -9,7 +9,7 @@ import Input from "../../components/input/Input";
 import Label from "../../components/label/Label";
 import { db } from "../../firebase-app/firebase-config";
 import useFirebaseImage from "../../hook/useFirebaseImage";
-import { bannerStatus } from "../../utils/constants";
+import { bannerStatus, bannerType } from "../../utils/constants";
 import DashboardHeading from "../dashboard/DashBoardHeading";
 import { toast } from "react-toastify";
 const BannerAddNew = () => {
@@ -26,6 +26,7 @@ const BannerAddNew = () => {
     defaultValues: {
       title: "",
       desc: "",
+      type: 1,
       status: 1,
       createdAt: new Date(),
       image: "",
@@ -43,6 +44,7 @@ const BannerAddNew = () => {
     const newValues = { ...values };
     console.log(newValues);
     newValues.status = Number(newValues.status);
+    newValues.type = Number(newValues.type);
     const colRef = collection(db, "banner");
     try {
       await addDoc(colRef, {
@@ -58,6 +60,7 @@ const BannerAddNew = () => {
         title: "",
         desc: "",
         status: 1,
+        type: 1,
         image: "",
         createdAt: new Date(),
       });
@@ -65,6 +68,7 @@ const BannerAddNew = () => {
     }
   };
   const watchStatus = watch("status");
+  const watchType = watch("type");
   return (
     <div>
       <DashboardHeading
@@ -101,6 +105,27 @@ const BannerAddNew = () => {
                 value={bannerStatus.UNAPPROVED}
               >
                 Unapproved
+              </Radio>
+            </div>
+          </Field>
+          <Field>
+            <Label>Type</Label>
+            <div className="flex flex-wrap gap-x-5">
+              <Radio
+                name="type"
+                control={control}
+                checked={Number(watchType) === bannerType.MAINBANNER}
+                value={bannerType.MAINBANNER}
+              >
+                Main Banner
+              </Radio>
+              <Radio
+                name="type"
+                control={control}
+                checked={Number(watchType) === bannerType.SUBBANNER}
+                value={bannerType.SUBBANNER}
+              >
+                Sub Banner
               </Radio>
             </div>
           </Field>

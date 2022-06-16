@@ -1,76 +1,106 @@
-import React, { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import React, { Fragment, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import Field from "../../components/field/Field";
-import ImageUpload from "../../components/image/ImageUpload";
-import Label from "../../components/label/Label";
-import DashboardHeading from "../dashboard/DashBoardHeading";
-import useFirebaseMultiImage from "../../hook/useFirebaseMultiImage";
-import ReactQuill, { Quill } from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
+import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import slugify from "slugify";
-import ImageUploader from "quill-image-uploader";
-Quill.register("modules/imageUploader", ImageUploader);
+import Button from "../../components/button/Button";
+import Radio from "../../components/checkbox/Radio";
+import { Dropdown } from "../../components/dropdown";
+import Field from "../../components/field/Field";
+import Input from "../../components/input/Input";
+import Label from "../../components/label/Label";
+import Textarea from "../../components/textarea/Textarea";
+import Toggle from "../../components/toggle/Toggle";
+import { db } from "../../firebase-app/firebase-config";
+import { categoryStatus } from "../../utils/constants";
+import DashboardHeading from "../dashboard/DashBoardHeading";
 import {
   getDownloadURL,
   getStorage,
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
-import Input from "../../components/input/Input";
-import Radio from "../../components/checkbox/Radio";
-import { categoryStatus } from "../../utils/constants";
-import Textarea from "../../components/textarea/Textarea";
-import Toggle from "../../components/toggle/Toggle";
-import { Dropdown } from "../../components/dropdown";
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  serverTimestamp,
-  where,
-} from "firebase/firestore";
-import { db } from "../../firebase-app/firebase-config";
-import Button from "../../components/button/Button";
-
-const ProductAddNew = () => {
-  const { handleSubmit, control, watch, setValue, getValues } = useForm({
-    mode: "onChange",
-    defaultValues: {
-      images: [],
-      slug: "",
-      content: "",
-      price: 0,
-      pricesale: 0,
-      status: 1,
-      quality: 1,
-      desc: "",
-      category: {},
-      hot: false,
-    },
-  });
-  const watchStatus = watch("status");
-  const watchHot = watch("hot");
+const ProductUpdate = () => {
+  const [params] = useSearchParams();
+  const productId = params.get("id");
   const [content, setContent] = useState("");
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    getValues,
+    watch,
+    reset,
+    formState: { isSubmitting, isValid },
+  } = useForm({
+    mode: "onchange",
+  });
+  const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [selectCategory, setSelectCategory] = useState("");
+  const [selectBrands, setSelectBrands] = useState("");
+  const [brands, setBrands] = useState("");
+  const [progress, setProgress] = useState(0);
   const [images, setImages] = useState([]);
   const [urls, setUrls] = useState([]);
-  const [progress, setProgress] = useState(0);
-  const [selectCategory, setSelectCategory] = useState("");
-  const [categories, setCategories] = useState([]);
-  const [selectBrand, setSelectBrand] = useState("");
-  const [brands, setBrands] = useState([]);
-
+  // const imageUrl = getValues("image");
+  // const imageName = getValues("image_name");
+  // const { image, setImage, progress, handleSelectImage, handleDeleteImage } =
+  //   useFirebaseImage(setValue, getValues, imageName, deletePostImage);
+  // async function deletePostImage() {
+  //   const colRef = doc(db, "posts", postId);
+  //   await updateDoc(colRef, {
+  //     avatar: "",
+  //   });
+  // }
+  // useEffect(() => {
+  //   setImage(imageUrl);
+  // }, [imageUrl, setImage]);
+  const watchStatus = watch("status");
+  const watchCategory = watch("category");
+  const watchHot = watch("hot");
+  const updateProductHandle = async (values) => {
+    const docRef = doc(db, "products", productId);
+    if (!isValid) return;
+    await updateDoc(docRef, {
+      ...values,
+      content,
+    });
+    toast.success("update successfully");
+  };
   useEffect(() => {
-    async function getCategoriesData() {
+    async function fetchData() {
+      if (!productId) return;
+      const docRef = doc(db, "products", productId);
+      const docSnapshot = await getDoc(docRef);
+      if (docSnapshot.data()) {
+        reset(docSnapshot.data());
+        setSelectCategory(docSnapshot.data()?.category || "");
+        setSelectBrands(docSnapshot.data()?.brands?.name || "");
+        setContent(docSnapshot.data()?.content || "");
+        setImages(docSnapshot.data()?.images || "");
+      }
+      console.log(docSnapshot.data());
+    }
+    fetchData();
+  }, [productId, reset]);
+  useEffect(() => {
+    async function getData() {
       const colRef = collection(db, "categories");
       const q = query(colRef, where("status", "==", 1));
       const querySnapshot = await getDocs(q);
       let result = [];
       querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
         result.push({
           id: doc.id,
           ...doc.data(),
@@ -78,15 +108,16 @@ const ProductAddNew = () => {
       });
       setCategories(result);
     }
-    getCategoriesData();
+    getData();
   }, []);
   useEffect(() => {
-    async function getBrandsData() {
+    async function getData() {
       const colRef = collection(db, "brands");
       const q = query(colRef, where("status", "==", 1));
       const querySnapshot = await getDocs(q);
       let result = [];
       querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
         result.push({
           id: doc.id,
           ...doc.data(),
@@ -94,9 +125,32 @@ const ProductAddNew = () => {
       });
       setBrands(result);
     }
-    getBrandsData();
+    getData();
   }, []);
-
+  const handleClickOptionCategory = async (item) => {
+    const colRef = doc(db, "categories", item.id);
+    const docData = await getDoc(colRef);
+    setValue("category", {
+      id: docData.id,
+      ...docData.data(),
+    });
+    setSelectCategory(item);
+  };
+  const handleClickOptionBrand = async (item) => {
+    const colRef = doc(db, "brands", item.id);
+    const docData = await getDoc(colRef);
+    setValue("brands", {
+      id: docData.id,
+      ...docData.data(),
+    });
+    setSelectBrands(item);
+  };
+  async function deleteProductImage() {
+    const colRef = doc(db, "products", productId);
+    await updateDoc(colRef, {
+      images: "",
+    });
+  }
   let newImage = [];
   const handleChange = (e) => {
     for (let i = 0; i < e.target.files.length; i++) {
@@ -135,40 +189,10 @@ const ProductAddNew = () => {
     });
 
     Promise.all(promises)
-      .then(() => alert("All images uploaded"))
+      .then(() => console.log("All images uploaded"))
       .catch((err) => console.log(err));
   };
   setValue("images", urls);
-  const handleClickOptionCategory = async (item) => {
-    const colRef = doc(db, "categories", item.id);
-    const docData = await getDoc(colRef);
-    setValue("category", {
-      id: docData.id,
-      ...docData.data(),
-    });
-    setSelectCategory(item);
-  };
-  const handleClickOptionBrand = async (item) => {
-    const colRef = doc(db, "brands", item.id);
-    const docData = await getDoc(colRef);
-    setValue("brand", {
-      id: docData.id,
-      ...docData.data(),
-    });
-    setSelectBrand(item);
-  };
-  const handleCreateProduct = async (values) => {
-    const cloneValues = { ...values };
-    cloneValues.slug = slugify(values.slug || values.title, { lower: true });
-    cloneValues.status = Number(values.status);
-    const colRef = collection(db, "products");
-    await addDoc(colRef, {
-      ...cloneValues,
-      content,
-      createdAt: serverTimestamp(),
-    });
-    toast.success("Add post successfuly");
-  };
   const modules = useMemo(
     () => ({
       toolbar: [
@@ -198,27 +222,30 @@ const ProductAddNew = () => {
     }),
     []
   );
+  const handleDeleteImage = () => {};
+  if (!productId) return null;
   return (
     <div>
       <DashboardHeading
-        title="New user"
-        desc="Add new user to system"
+        title="Update Product"
+        desc={`Update your product id ${productId}`}
       ></DashboardHeading>
-      <form onSubmit={handleSubmit(handleCreateProduct)}>
-        <div className="grid grid-cols-2 gap-x-10 mb-10">
+      <form onSubmit={handleSubmit(updateProductHandle)}>
+        <div className=" mb-10">
           <Field>
             <Label>Image</Label>
-            <div className="flex">
+            <div className="flex gap-x-5">
               <div className="">
                 <progress value={progress} max="100" />
                 <br />
                 <br />
                 <input type="file" multiple onChange={handleChange} />
+
                 <button onClick={handleUpload}>Upload</button>
                 <br />
               </div>
-              <div className="flex gap-x-2">
-                {urls.map((url, i) => (
+              <div className="flex gap-x-2 flex-1">
+                {/* {images.map((url, i) => (
                   <img
                     className="border border-gray-200"
                     key={i}
@@ -226,7 +253,41 @@ const ProductAddNew = () => {
                     src={url || "http://via.placeholder.com/300"}
                     alt="firebase-image"
                   />
-                ))}
+                ))} */}
+                {images &&
+                  images.map((item, i) => (
+                    <Fragment key={i}>
+                      <label
+                        className={`cursor-pointer flex items-center justify-center border border-dashed w-full min-h-[200px] rounded-lg  relative overflow-hidden group`}
+                      >
+                        <img
+                          src={item}
+                          className="w-full h-full object-cover"
+                          alt=""
+                        />
+                        <button
+                          type="button"
+                          className="w-16 h-16 bg-white rounded-full flex items-center justify-center cursor-pointer absolute z-10 text-red-500 opacity-0 invisible transition-all group-hover:opacity-100 group-hover:visible"
+                          onClick={deleteProductImage}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                            />
+                          </svg>
+                        </button>
+                      </label>
+                    </Fragment>
+                  ))}
               </div>
             </div>
           </Field>
@@ -364,9 +425,9 @@ const ProductAddNew = () => {
                   ))}
               </Dropdown.List>
             </Dropdown>
-            {selectBrand?.name && (
+            {selectBrands?.name && (
               <span className="inline-block p-3 text-sm font-medium text-green-600 rounded-lg bg-green-50">
-                {selectBrand?.name}
+                {selectBrands?.name}
               </span>
             )}
           </Field>
@@ -391,4 +452,4 @@ const ProductAddNew = () => {
   );
 };
 
-export default ProductAddNew;
+export default ProductUpdate;

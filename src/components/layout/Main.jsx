@@ -2,6 +2,7 @@ import React from "react";
 import PopularCategory from "../../module/category/PopularCategory";
 import HomeBanner from "../../module/home/HomeBanner";
 import HomeHotTrend from "../../module/home/HomeHotTrend";
+import HomePopularCategory from "../../module/home/HomePopularCategory";
 import Band from "../band/Band";
 import ProductFeatured from "../product/ProductFeatured";
 import ProductList from "../product/ProductList";
@@ -14,7 +15,7 @@ const Main = () => {
       {/* <Header></Header> */}
       <HomeBanner></HomeBanner>
       <div className="flex justify-between container mt-10">
-        <Heading></Heading>
+        <Heading>Hot Trending Products</Heading>
 
         <a
           href="#"
@@ -40,7 +41,7 @@ const Main = () => {
       <HomeHotTrend></HomeHotTrend>
 
       <div className="flex justify-between container mt-10">
-        <Heading></Heading>
+        <Heading>Popular Categories</Heading>
 
         <a
           href="#"
@@ -63,9 +64,9 @@ const Main = () => {
           </svg>
         </a>
       </div>
-      <PopularCategory></PopularCategory>
+      <HomePopularCategory></HomePopularCategory>
       <div className="flex justify-between container mt-10">
-        <Heading></Heading>
+        <Heading>Top Featured Products</Heading>
 
         <a
           href="#"

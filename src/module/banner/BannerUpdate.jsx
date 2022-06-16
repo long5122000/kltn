@@ -16,7 +16,7 @@ import Input from "../../components/input/Input";
 import Label from "../../components/label/Label";
 import { db } from "../../firebase-app/firebase-config";
 import useFirebaseImage from "../../hook/useFirebaseImage";
-import { bannerStatus } from "../../utils/constants";
+import { bannerStatus, bannerType } from "../../utils/constants";
 import DashboardHeading from "../dashboard/DashBoardHeading";
 import { toast } from "react-toastify";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -42,12 +42,12 @@ const BannerUpdate = () => {
     useFirebaseImage(setValue, getValues, imageName);
 
   const navigate = useNavigate();
-  // async function deletePostImage() {
-  //   const colRef = doc(db, "banner", bannerId);
-  //   await updateDoc(colRef, {
-  //     avatar: "",
-  //   });
-  // }
+  async function deletePostImage() {
+    const colRef = doc(db, "banner", bannerId);
+    await updateDoc(colRef, {
+      avatar: "",
+    });
+  }
   useEffect(() => {
     setImage(imageUrl);
   }, [imageUrl, setImage]);
@@ -64,6 +64,7 @@ const BannerUpdate = () => {
   }, [bannerId, reset]);
 
   const watchStatus = watch("status");
+  const watchType = watch("type");
   const handleUpdateBanner = async (values) => {
     console.log(values);
     const colRef = doc(db, "banner", bannerId);
@@ -80,8 +81,8 @@ const BannerUpdate = () => {
   return (
     <div>
       <DashboardHeading
-        title="New category"
-        desc="Add new category"
+        title="Update Banner"
+        desc="Update  Banner"
       ></DashboardHeading>
       <form onSubmit={handleSubmit(handleUpdateBanner)}>
         <div className="grid grid-cols-2 gap-x-10 mb-10">
@@ -113,6 +114,27 @@ const BannerUpdate = () => {
                 value={bannerStatus.UNAPPROVED}
               >
                 Unapproved
+              </Radio>
+            </div>
+          </Field>
+          <Field>
+            <Label>Type</Label>
+            <div className="flex flex-wrap gap-x-5">
+              <Radio
+                name="type"
+                control={control}
+                checked={Number(watchType) === bannerType.MAINBANNER}
+                value={bannerType.MAINBANNER}
+              >
+                Main Banner
+              </Radio>
+              <Radio
+                name="type"
+                control={control}
+                checked={Number(watchType) === bannerType.SUBBANNER}
+                value={bannerType.SUBBANNER}
+              >
+                Sub Banner
               </Radio>
             </div>
           </Field>
