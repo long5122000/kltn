@@ -1,11 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../contexts/auth-context";
+import Button from "../button/Button";
 
 const HeaderMain = () => {
+  const { userInfo } = useAuth();
   return (
     <div className="container py-4 flex justify-between items-center border-b-[1px] border-rgba-border">
-      <a href="#">
+      <Link to="/">
         <img src="../logo.webp" alt="" className="w-44 h-6" />
-      </a>
+      </Link>
       <div className="w-full max-w-sm relative flex">
         <input
           type="text "
@@ -98,14 +102,28 @@ const HeaderMain = () => {
               />
             </svg>
           </div>
-          <div className="flex items-center flex-col">
-            <a href="#" className="text-center mb-1 hover:text-[#16bcdc]">
-              <div className="text-xs leading-3">Sign in</div>
-            </a>
-            <a href="#" className="text-center hover:text-[#16bcdc]">
-              <div className="text-sm leading-3">Create an Account</div>
-            </a>
-          </div>
+
+          {!userInfo ? (
+            <Button
+              type="button"
+              height="36px"
+              className="bg-[#16bcdc]"
+              to="/sign-in"
+            >
+              Login
+            </Button>
+          ) : (
+            <div className="header-auth">
+              <Button
+                type="button"
+                height="36px"
+                className="bg-[#16bcdc]"
+                to="/dashboard"
+              >
+                Dashboard
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </div>

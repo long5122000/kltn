@@ -10,11 +10,13 @@ import Input from "../../components/input/Input";
 import Label from "../../components/label/Label";
 import { db } from "../../firebase-app/firebase-config";
 import useFirebaseImage from "../../hook/useFirebaseImage";
-import { categoryStatus } from "../../utils/constants";
+import { categoryStatus, userRole } from "../../utils/constants";
 import slugify from "slugify";
 import ImageUpload from "../../components/image/ImageUpload";
+import { useAuth } from "../../contexts/auth-context";
 
 const CategoryAddNew = () => {
+  const { userInfo } = useAuth();
   const {
     control,
     setValue,
@@ -42,6 +44,10 @@ const CategoryAddNew = () => {
   } = useFirebaseImage(setValue, getValues);
   const handleAddNewCategory = async (values) => {
     if (!isValid) return;
+    if (userInfo?.role !== userRole.ADMIN) {
+      Swal.fire("Failed", "You have no right to do this action", "warning");
+      return;
+    }
     const newValues = { ...values };
     newValues.slug = slugify(newValues.name || newValues.slug, {
       lower: true,

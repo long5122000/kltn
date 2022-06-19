@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -10,13 +10,55 @@ import "react-tabs/style/react-tabs.css";
 import Footer from "../components/layout/Footer";
 import ProductList from "../components/product/ProductList";
 import Heading from "../components/layout/Heading";
+import { useParams, useSearchParams } from "react-router-dom";
+import { addDoc, collection, doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase-app/firebase-config";
+import { useAuth } from "../contexts/auth-context";
 const ProductDetailPage = () => {
+  const { userInfo } = useAuth();
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [toggleState, setToggleState] = useState(1);
 
   const toggleTab = (index) => {
     setToggleState(index);
   };
+  // const [params] = useSearchParams();
+  // console.log(params);
+  // const productId = params.get("id");
+  // console.log(productId);
+  const productid = useParams().id;
+  const [productList, setProductList] = useState({});
+  const [product, setProduct] = useState([]);
+  useEffect(() => {
+    async function fetchData() {
+      const docRef = doc(db, "products", productid);
+
+      const docSnapshot = await getDoc(docRef);
+      if (docSnapshot.data()) {
+        setProduct(docSnapshot.data());
+      }
+    }
+    fetchData();
+  }, []);
+  useEffect(() => {
+    async function fetchData() {
+      const docRef = doc(db, "products", productid);
+      const docSnapshot = await getDoc(docRef);
+      if (docSnapshot.data()) {
+        setProductList(docSnapshot.data());
+      }
+    }
+    fetchData();
+  }, []);
+
+  const handleAddDoc = async () => {
+    const docRef = await addDoc(collection(db, "AuthCart"), {
+      auth: userInfo.uid,
+      prodcut: productList,
+    });
+    console.log("Document written with ID: ", docRef.id);
+  };
+  console.log("pr", product);
   return (
     <>
       <div className="container mb-5">
@@ -112,33 +154,31 @@ const ProductDetailPage = () => {
 
           <div className="col-span-1   rounded-lg w-full ">
             <h2 className="text-2xl text-[#0068c9] font-bold">
-              Tai nghe chup tai
+              {product.title}
             </h2>
             <div className="flex items-baseline mt-3 mb-4 space-x-2 ">
-              <p className="text-2xl text-[#cc1414] font-semibold">$45.00</p>
-              <p className="text-base text-gray-400 line-through">$55.00</p>
+              <p className="text-2xl text-[#cc1414] font-semibold">
+                ${product.pricesale}
+              </p>
+              <p className="text-base text-gray-400 line-through">
+                ${product.price}
+              </p>
             </div>
             <hr />
             <div className="mt-5 mb-3">
               <p className="mb-1 text-sm font-bold text-[#222]">
                 Availability: <span className="text-primary">Instock </span>
               </p>
-              <p className="mb-1 text-sm font-bold text-[#222]">
-                SKU: <span className="text-[#666]">Digital015 </span>
-              </p>
             </div>
             <p className="text-sm text-[#666] mb-6 font-medium">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Veniam
-              cumque, quibusdam quisquam commodi dolore provident aliquam
-              similique id ipsum laborum aperiam tempora rem quis quidem
-              eligendi, ducimus porro natus. Dolor.
+              {product.desc}
             </p>
             <div className="flex gap-x-4 mb-3">
               <div className="flex">
                 <div className="border border-gray-300">
                   <input
                     type="text"
-                    value={1}
+                    value={product.quality}
                     className="bg-white w-[100px]  rounded-md py-2 pl-9 pr-3 h-full sm:text-sm"
                   />
                 </div>
@@ -177,7 +217,10 @@ const ProductDetailPage = () => {
                   </div>
                 </div>
               </div>
-              <button className="py-2 px-20  text-white bg-[#16bcdc]">
+              <button
+                className="py-2 px-20  text-white bg-[#16bcdc]"
+                onClick={handleAddDoc}
+              >
                 Add to cart
               </button>
             </div>
@@ -204,10 +247,11 @@ const ProductDetailPage = () => {
             <div className="mt-4">
               <p className="mb-1 text-sm font-bold">
                 Category:{" "}
-                <span className="text-[#666] ">Phone, table, pc </span>
+                <span className="text-[#666] ">{product?.category?.name}</span>
               </p>
               <p className="mb-1 text-sm font-bold">
-                Brand name: <span className="text-[#666]">Apple, Samsung </span>
+                Brand name:{" "}
+                <span className="text-[#666]">{product?.brand?.name}</span>
               </p>
             </div>
           </div>
@@ -251,12 +295,7 @@ const ProductDetailPage = () => {
           </div>
           <div className=" px-5 border-t-[1px] border-[#ebebeb]">
             {toggleState === 1 && (
-              <div className="block">
-                <h3>Tab1</h3> Lorem ipsum dolor sit amet consectetur adipisicing
-                elit. Adipisci cumque nemo quibusdam delectus libero reiciendis
-                porro accusamus quisquam suscipit provident, nisi dolor aut
-                minima iusto. Dolor deleniti expedita praesentium porro!
-              </div>
+              <div className="block">{product.content}</div>
             )}
             {toggleState === 2 && (
               <div className="block">

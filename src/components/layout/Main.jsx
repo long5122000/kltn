@@ -1,8 +1,11 @@
 import React from "react";
 import PopularCategory from "../../module/category/PopularCategory";
 import HomeBanner from "../../module/home/HomeBanner";
+import HomeBannerBottom from "../../module/home/HomeBannerBottom";
 import HomeHotTrend from "../../module/home/HomeHotTrend";
 import HomePopularCategory from "../../module/home/HomePopularCategory";
+import HomeProductFeature from "../../module/home/HomeProductFeature";
+import HomeProductRecomment from "../../module/home/HomeProductRecomment";
 import Band from "../band/Band";
 import ProductFeatured from "../product/ProductFeatured";
 import ProductList from "../product/ProductList";
@@ -89,42 +92,10 @@ const Main = () => {
           </svg>
         </a>
       </div>
-      <ProductFeatured></ProductFeatured>
-      <div className="container flex justify-between gap-5">
-        <div className="w-[376px] h-[190px]  rounded-3xl overflow-hidden relative">
-          <div className="absolute -translate-y-1/2 left-5 top-1/2 text-white">
-            <h3 className="text-2xl font-semibold mb-3">
-              Microsoft suface 14'
-            </h3>
-            <p className="text-lg">Up to -30%</p>
-          </div>
-          <img src="../images/banner-5.png" alt="" className="w-full h-full" />
-        </div>
-        <div className="w-[376px] h-[190px]  rounded-3xl overflow-hidden relative">
-          <div className="absolute -translate-y-1/2 left-5 top-1/2  text-white">
-            <h3 className="text-2xl font-semibold mb-3">
-              Microsoft suface 14'
-            </h3>
-            <p className="text-lg">Up to -30%</p>
-          </div>
-          <img
-            src="../images/banner-6.png"
-            alt=""
-            className="w-full h-full object-fill  "
-          />
-        </div>
-        <div className="w-[376px] h-[190px]  rounded-3xl overflow-hidden relative">
-          <div className="absolute -translate-y-1/2 left-5 top-1/2  text-white">
-            <h3 className="text-2xl font-semibold mb-3">
-              Microsoft suface 14'
-            </h3>
-            <p className="text-lg">Up to -30%</p>
-          </div>
-          <img src="../images/banner-7.png" alt="" className="w-full h-full" />
-        </div>
-      </div>
+      <HomeProductFeature></HomeProductFeature>
+      <HomeBannerBottom></HomeBannerBottom>
       <div className="flex justify-between container mt-10">
-        <Heading></Heading>
+        <Heading>Recommended For You</Heading>
 
         <a
           href="#"
@@ -147,7 +118,7 @@ const Main = () => {
           </svg>
         </a>
       </div>
-      <ProductList></ProductList>
+      <HomeProductRecomment></HomeProductRecomment>
       <div className="container"></div>
       <Band></Band>
       <Footer></Footer>

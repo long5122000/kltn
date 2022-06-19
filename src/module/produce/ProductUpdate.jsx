@@ -66,6 +66,7 @@ const ProductUpdate = () => {
   //   setImage(imageUrl);
   // }, [imageUrl, setImage]);
   const watchStatus = watch("status");
+  const watchFeature = watch("feature");
   const watchCategory = watch("category");
   const watchHot = watch("hot");
   const updateProductHandle = async (values) => {
@@ -432,10 +433,17 @@ const ProductUpdate = () => {
             )}
           </Field>
           <Field>
-            <Label>Feature Post</Label>
+            <Label>Hot </Label>
             <Toggle
               on={watchHot === true}
               onClick={() => setValue("hot", !watchHot)}
+            ></Toggle>
+          </Field>
+          <Field>
+            <Label>Feature Product</Label>
+            <Toggle
+              on={watchFeature === true}
+              onClick={() => setValue("feature", !watchFeature)}
             ></Toggle>
           </Field>
         </div>

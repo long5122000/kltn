@@ -12,6 +12,7 @@ import Label from "../components/label/Label";
 import Footer from "../components/layout/Footer";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useAuth } from "../contexts/auth-context";
+import { auth } from "../firebase-app/firebase-config";
 
 const SignInPage1 = () => {
   const schema = yup.object({
@@ -81,7 +82,10 @@ const SignInPage1 = () => {
                 </Field>
                 <Field>
                   <Label htmlFor="password">Password</Label>
-                  <InputPasswordToggle control={control}></InputPasswordToggle>
+                  <InputPasswordToggle
+                    name="password"
+                    control={control}
+                  ></InputPasswordToggle>
                 </Field>
 
                 <Button
@@ -92,8 +96,8 @@ const SignInPage1 = () => {
                     maxWidth: 300,
                     margin: "0 auto",
                   }}
-                  // isLoading={isSubmitting}
-                  // disabled={isSubmitting}
+                  isLoading={isSubmitting}
+                  disabled={isSubmitting}
                 >
                   Sign Up
                 </Button>
@@ -108,7 +112,8 @@ const SignInPage1 = () => {
                   Creating an account has many benefits: check out faster, keep
                   more than one address, track orders and more.
                 </p>
-                <Button type="button" kind="favourite">
+
+                <Button to="/sign-up" type="button" kind="favourite">
                   Create an account
                 </Button>
               </div>

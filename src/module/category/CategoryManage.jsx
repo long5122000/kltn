@@ -21,11 +21,13 @@ import ActionEdit from "../../components/action/ActionEdit";
 import Table from "../../components/table/Table";
 import DashboardHeading from "../dashboard/DashBoardHeading";
 import { db } from "../../firebase-app/firebase-config";
-import { categoryStatus } from "../../utils/constants";
+import { categoryStatus, userRole } from "../../utils/constants";
+import { useAuth } from "../../contexts/auth-context";
 
 const CATEGORY_PER_PAGE = 1;
 
 const CategoryManage = () => {
+  const { userInfo } = useAuth();
   const [categoryList, setCategoryList] = useState([]);
   const navigate = useNavigate();
   const [filter, setFilter] = useState(undefined);
@@ -88,6 +90,10 @@ const CategoryManage = () => {
     fetchData();
   }, [filter]);
   const handleDeleteCategory = async (docId) => {
+    if (userInfo?.role !== userRole.ADMIN) {
+      Swal.fire("Failed", "You have no right to do this action", "warning");
+      return;
+    }
     const colRef = doc(db, "categories", docId);
     Swal.fire({
       title: "Are you sure?",

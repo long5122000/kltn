@@ -20,7 +20,7 @@ import Table from "../../components/table/Table";
 import { db } from "../../firebase-app/firebase-config";
 import { productStatus } from "../../utils/constants";
 import DashboardHeading from "../dashboard/DashBoardHeading";
-const PRODUCT_PER_PAGE = 10;
+const PRODUCT_PER_PAGE = 100;
 const ProductManage = () => {
   const [productList, setProductList] = useState([]);
   const [filter, setFilter] = useState(undefined);

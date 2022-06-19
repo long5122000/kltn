@@ -1,15 +1,4 @@
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  onSnapshot,
-  query,
-  setDoc,
-  updateDoc,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import React, { Fragment, useEffect, useState } from "react";
 import "swiper/scss";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -17,23 +6,13 @@ import { Navigation } from "swiper";
 import "swiper/css/navigation";
 
 import { db } from "../../firebase-app/firebase-config";
-import { useGallery } from "../../contexts/gallery-context";
-import { toast } from "react-toastify";
-import { useAuth } from "../../contexts/auth-context";
-import { async } from "@firebase/util";
-import { useNavigate } from "react-router-dom";
 
-const HomeHotTrend = () => {
-  const { products, cartItems, addToCart } = useGallery();
-  if (!cartItems) return;
-  const navigate = useNavigate();
-  const { userInfo } = useAuth();
-  const [productList, setProductList] = useState({});
-
+const HomeProductRecomment = () => {
+  const [productList, setProductList] = useState([]);
   useEffect(() => {
     async function getData() {
       const colRef = collection(db, "products");
-      const q = query(colRef, where("hot", "==", true));
+      const q = query(colRef, where("hot", "==", false));
       const querySnapshot = await getDocs(q);
       let result = [];
       querySnapshot.forEach((doc) => {
@@ -47,32 +26,11 @@ const HomeHotTrend = () => {
     }
     getData();
   }, []);
-
-  const [product, setProduct] = useState([]);
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const docRef = doc(db, "products", cartItems);
-  //     const docSnapshot = await getDoc(docRef);
-  //     if (docSnapshot.data()) {
-  //       setProduct(docSnapshot.data());
-  //     }
-  //   }
-  //   fetchData();
-  // }, [cartItems]);
-
-  // const handleAddDoc = async () => {
-  //   const docRef = await addDoc(collection(db, "AuthCart"), {
-  //     auth: userInfo.uid,
-  //     prodcut: product,
-  //   });
-  //   console.log("Document written with ID: ", docRef.id);
-  // };
-
   return (
     <div className="container">
       <div className="product-list">
         <Swiper
+          grabCursor="true"
           slidesPerView={5}
           spaceBetween={23}
           loop={true}
@@ -94,7 +52,7 @@ const HomeHotTrend = () => {
                     </span>
                   )}
 
-                  {/* <div className="absolute -right-full top-5 item-option transition-all flex gap-2 flex-col">
+                  <div className="absolute -right-full top-5 item-option transition-all flex gap-2 flex-col">
                     <a className="text-[#434242] bg-slate-200 rounded-full p-2 hover:bg-[#16bcdc] hover:text-white">
                       <span>
                         <svg
@@ -134,12 +92,11 @@ const HomeHotTrend = () => {
                         />
                       </svg>
                     </a>
-                  </div> */}
+                  </div>
                   <img
                     src={item.images[0]}
                     alt=""
                     className="h-[163px] w-[163px] object-cover mb-5 rounded-lg"
-                    onClick={() => navigate(`/product/${item.id}`)}
                   />
                   <div className="flex flex-col flex-1">
                     <h3 className="mb-2 text-[#0068c9] text-base font-bold title-line">
@@ -219,12 +176,8 @@ const HomeHotTrend = () => {
                     {/* <a
                       href="#"
                       className="px-2 py-2 bg-[#16bcdc] rounded-lg text-center"
-                      onClick={async () => {
-                        await addToCart(item.id);
-                        await handleAddDoc();
-                      }}
                     >
-                      Add to cart
+                      Buy now
                     </a> */}
                   </div>
                 </div>
@@ -236,4 +189,4 @@ const HomeHotTrend = () => {
   );
 };
 
-export default HomeHotTrend;
+export default HomeProductRecomment;

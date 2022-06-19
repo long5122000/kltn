@@ -16,7 +16,7 @@ import Input from "../../components/input/Input";
 import Label from "../../components/label/Label";
 import { db } from "../../firebase-app/firebase-config";
 import useFirebaseImage from "../../hook/useFirebaseImage";
-import { bannerStatus, categoryStatus } from "../../utils/constants";
+import { bannerStatus, categoryStatus, userRole } from "../../utils/constants";
 import DashboardHeading from "../dashboard/DashBoardHeading";
 import { toast } from "react-toastify";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -56,6 +56,10 @@ const CategoryUpdate = () => {
   }, [categoryId, reset]);
   const watchStatus = watch("status");
   const handleUpdateCategory = async (values) => {
+    if (userInfo?.role !== userRole.ADMIN) {
+      Swal.fire("Failed", "You have no right to do this action", "warning");
+      return;
+    }
     const colRef = doc(db, "categories", categoryId);
     await updateDoc(colRef, {
       name: values.name,

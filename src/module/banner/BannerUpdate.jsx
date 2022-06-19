@@ -42,12 +42,12 @@ const BannerUpdate = () => {
     useFirebaseImage(setValue, getValues, imageName);
 
   const navigate = useNavigate();
-  async function deletePostImage() {
-    const colRef = doc(db, "banner", bannerId);
-    await updateDoc(colRef, {
-      avatar: "",
-    });
-  }
+  // async function deletePostImage() {
+  //   const colRef = doc(db, "banner", bannerId);
+  //   await updateDoc(colRef, {
+  //     avatar: "",
+  //   });
+  // }
   useEffect(() => {
     setImage(imageUrl);
   }, [imageUrl, setImage]);
@@ -135,6 +135,14 @@ const BannerUpdate = () => {
                 value={bannerType.SUBBANNER}
               >
                 Sub Banner
+              </Radio>
+              <Radio
+                name="type"
+                control={control}
+                checked={Number(watchType) === bannerType.BOTTOMBANNER}
+                value={bannerType.BOTTOMBANNER}
+              >
+                Bottom Banner
               </Radio>
             </div>
           </Field>

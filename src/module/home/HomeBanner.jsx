@@ -50,7 +50,6 @@ const HomeBanner = () => {
     }
     getData();
   }, []);
-  console.log("sub", bannerSub);
   return (
     <div className=" container mt-5 grid grid-rows-4 grid-cols-5 gap-4">
       <div className="h-[420px] banner col-span-3 row-span-4 rounded-[28px] overflow-hidden">

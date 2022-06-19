@@ -55,6 +55,7 @@ const ProductAddNew = () => {
   });
   const watchStatus = watch("status");
   const watchHot = watch("hot");
+  const watchFeature = watch("feature");
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
   const [urls, setUrls] = useState([]);
@@ -252,7 +253,7 @@ const ProductAddNew = () => {
         </div>
         <div className="grid mb-10">
           <Field>
-            <Label>Content</Label>
+            <Label>sds</Label>
             <div className="w-full entry-content">
               <ReactQuill
                 modules={modules}
@@ -371,10 +372,17 @@ const ProductAddNew = () => {
             )}
           </Field>
           <Field>
-            <Label>Feature Post</Label>
+            <Label>Hot </Label>
             <Toggle
               on={watchHot === true}
               onClick={() => setValue("hot", !watchHot)}
+            ></Toggle>
+          </Field>
+          <Field>
+            <Label>Feature Product</Label>
+            <Toggle
+              on={watchFeature === true}
+              onClick={() => setValue("feature", !watchFeature)}
             ></Toggle>
           </Field>
         </div>

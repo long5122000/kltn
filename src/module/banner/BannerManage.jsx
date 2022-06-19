@@ -167,6 +167,9 @@ const BannerManage = () => {
                   {Number(banner.type) === bannerType.SUBBANNER && (
                     <LabelStatus type="warning">Sub Banner</LabelStatus>
                   )}
+                  {Number(banner.type) === bannerType.BOTTOMBANNER && (
+                    <LabelStatus type="danger">Bottom Banner</LabelStatus>
+                  )}
                 </td>
                 <td>
                   <div className="flex items-center gap-x-3 text-gray-500">

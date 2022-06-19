@@ -127,6 +127,14 @@ const BannerAddNew = () => {
               >
                 Sub Banner
               </Radio>
+              <Radio
+                name="type"
+                control={control}
+                checked={Number(watchType) === bannerType.BOTTOMBANNER}
+                value={bannerType.BOTTOMBANNER}
+              >
+                Bottom Banner
+              </Radio>
             </div>
           </Field>
         </div>

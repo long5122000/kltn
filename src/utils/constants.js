@@ -22,6 +22,7 @@ export const bannerStatus = {
 export const bannerType = {
   MAINBANNER: 1,
   SUBBANNER: 2,
+  BOTTOMBANNER: 3,
 };
 export const categoryStatus = {
   APPROVED: 1,
