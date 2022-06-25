@@ -14,6 +14,9 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase-app/firebase-config";
 import { useAuth } from "../contexts/auth-context";
+import { useDispatch, useSelector } from "react-redux";
+import { increment, decrement, addToCart } from "../redux/addMultiCartSlice";
+
 const ProductDetailPage = () => {
   const { userInfo } = useAuth();
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
@@ -22,11 +25,11 @@ const ProductDetailPage = () => {
   const toggleTab = (index) => {
     setToggleState(index);
   };
-  // const [params] = useSearchParams();
-  // console.log(params);
-  // const productId = params.get("id");
-  // console.log(productId);
+  const cart = useSelector((state) => state.count.count);
+  const dispatch = useDispatch();
+
   const productid = useParams().id;
+  console.log(productid);
   const [productList, setProductList] = useState({});
   const [product, setProduct] = useState([]);
   useEffect(() => {
@@ -59,6 +62,21 @@ const ProductDetailPage = () => {
     console.log("Document written with ID: ", docRef.id);
   };
   console.log("pr", product);
+  const cloneProduct = { ...product, id: productid };
+  const {
+    id: prodcutId,
+    title,
+    pricesale,
+    price,
+    images,
+    quality,
+    ...rest
+  } = cloneProduct;
+  delete cloneProduct.brand;
+  delete cloneProduct.category;
+  delete cloneProduct.createdAt;
+  console.log("res", rest);
+  console.log("cl", cloneProduct);
   return (
     <>
       <div className="container mb-5">
@@ -178,12 +196,15 @@ const ProductDetailPage = () => {
                 <div className="border border-gray-300">
                   <input
                     type="text"
-                    value={product.quality}
+                    value={cart}
                     className="bg-white w-[100px]  rounded-md py-2 pl-9 pr-3 h-full sm:text-sm"
                   />
                 </div>
                 <div className="">
-                  <div className="border border-gray-300 text-[#666]">
+                  <div
+                    className="border border-gray-300 text-[#666]"
+                    onClick={() => dispatch(increment())}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       class="h-6 w-6"
@@ -199,7 +220,10 @@ const ProductDetailPage = () => {
                       />
                     </svg>
                   </div>
-                  <div className="border border-gray-300 text-[#666]">
+                  <div
+                    className="border border-gray-300 text-[#666]"
+                    onClick={() => dispatch(decrement())}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       class="h-6 w-6"
@@ -219,7 +243,7 @@ const ProductDetailPage = () => {
               </div>
               <button
                 className="py-2 px-20  text-white bg-[#16bcdc]"
-                onClick={handleAddDoc}
+                onClick={() => dispatch(addToCart(cloneProduct))}
               >
                 Add to cart
               </button>

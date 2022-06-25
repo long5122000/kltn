@@ -1,3 +1,4 @@
+import { Provider } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/layout/Footer";
@@ -30,11 +31,12 @@ import NotFoundPage from "./pages/NotFoundPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import SignInPage1 from "./pages/SignInPage1";
 import SignUpPage from "./pages/SignUpPage";
+import store from "./redux/configureStore";
 
 function App() {
   return (
     <div>
-      <GalleryProvider>
+      <Provider store={store}>
         <AuthProvider>
           <Routes>
             <Route element={<Header></Header>}>
@@ -175,7 +177,7 @@ function App() {
             </Route>
           </Routes>
         </AuthProvider>
-      </GalleryProvider>
+      </Provider>
     </div>
   );
 }

@@ -15,18 +15,18 @@ import "swiper/scss";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import "swiper/css/navigation";
-
+import { useDispatch, useSelector } from "react-redux";
 import { db } from "../../firebase-app/firebase-config";
 import { useGallery } from "../../contexts/gallery-context";
 import { toast } from "react-toastify";
 import { useAuth } from "../../contexts/auth-context";
 import { async } from "@firebase/util";
 import { useNavigate } from "react-router-dom";
+import { addToCart } from "../../redux/addMultiCartSlice";
 
 const HomeHotTrend = () => {
-  const { products, cartItems, addToCart } = useGallery();
-  if (!cartItems) return;
-  const navigate = useNavigate();
+  // const { products, cartItems, addToCart } = useGallery();
+
   const { userInfo } = useAuth();
   const [productList, setProductList] = useState({});
 
@@ -47,8 +47,8 @@ const HomeHotTrend = () => {
     }
     getData();
   }, []);
-
-  const [product, setProduct] = useState([]);
+  // console.log("cr", cartItems);
+  // console.log("pr", productList);
 
   // useEffect(() => {
   //   async function fetchData() {
@@ -83,18 +83,33 @@ const HomeHotTrend = () => {
           {productList.length > 0 &&
             productList.map((item) => (
               <SwiperSlide>
-                <div className="p-5  product-item overflow-hidden  hover:opacity-90 bg-white text-white rounded-lg flex flex-col h-full relative ">
-                  {item.pricesale == 0 ? (
-                    <span className="absolute px-2 rounded-sm bg-[#950f1a] text-xs">
-                      hot
-                    </span>
-                  ) : (
-                    <span className="absolute px-2 rounded-sm bg-[#5aab19] text-xs">
-                      {Math.floor(100 - (item.pricesale / item.price) * 100)}%
-                    </span>
-                  )}
+                <ProductItem id={item.id} infor={item}></ProductItem>
+              </SwiperSlide>
+            ))}
+        </Swiper>
+      </div>
+    </div>
+  );
+};
 
-                  {/* <div className="absolute -right-full top-5 item-option transition-all flex gap-2 flex-col">
+const ProductItem = ({
+  infor: { id, title, pricesale, price, images, quality },
+}) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const item = { id, title, pricesale, price, images, quality };
+  return (
+    <div className="p-5  product-item overflow-hidden  hover:opacity-90 bg-white text-white rounded-lg flex flex-col h-full relative ">
+      {pricesale == 0 ? (
+        <span className="absolute px-2 rounded-sm bg-[#950f1a] text-xs">
+          hot
+        </span>
+      ) : (
+        <span className="absolute px-2 rounded-sm bg-[#5aab19] text-xs">
+          {Math.floor(100 - (pricesale / price) * 100)}%
+        </span>
+      )}
+      {/* <div className="absolute -right-full top-5 item-option transition-all flex gap-2 flex-col">
                     <a className="text-[#434242] bg-slate-200 rounded-full p-2 hover:bg-[#16bcdc] hover:text-white">
                       <span>
                         <svg
@@ -135,105 +150,95 @@ const HomeHotTrend = () => {
                       </svg>
                     </a>
                   </div> */}
-                  <img
-                    src={item.images[0]}
-                    alt=""
-                    className="h-[163px] w-[163px] object-cover mb-5 rounded-lg"
-                    onClick={() => navigate(`/product/${item.id}`)}
-                  />
-                  <div className="flex flex-col flex-1">
-                    <h3 className="mb-2 text-[#0068c9] text-base font-bold title-line">
-                      {item.title.slice(0, 19) + "..."}
-                    </h3>
-                    <div className="flex items-center mb-2">
-                      <div className="flex  text-xs text-yellow-400">
-                        <span>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-                        </span>
-                        <span>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-                        </span>
-                        <span>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-                        </span>
-                        <span>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-                        </span>
-                        <span>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-4 w-4"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-                        </span>
-                      </div>
-                      <div className="text-xs text-gray-500 ml-2">(150)</div>
-                    </div>
-                    <div className="flex items-baseline mb-2 space-x-2 ">
-                      {item.pricesale > 0 ? (
-                        <>
-                          <p className="text-xl text-[#cc1414] font-semibold">
-                            ${item?.pricesale}
-                          </p>
-                          <p className="text-sm text-gray-400 line-through">
-                            ${item?.price}
-                          </p>
-                        </>
-                      ) : (
-                        <p className="text-xl text-gray-400 font-semibold">
-                          ${item.pricesale}
-                        </p>
-                      )}
-                    </div>
-                    {/* <a
-                      href="#"
-                      className="px-2 py-2 bg-[#16bcdc] rounded-lg text-center"
-                      onClick={async () => {
-                        await addToCart(item.id);
-                        await handleAddDoc();
-                      }}
-                    >
-                      Add to cart
-                    </a> */}
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
-        </Swiper>
+      /*{" "}
+      <img
+        src={images}
+        alt=""
+        className="h-[163px] w-[163px] object-cover mb-5 rounded-lg"
+        onClick={() => navigate(`/product/${id}`)}
+      />
+      <div className="flex flex-col flex-1">
+        <h3 className="mb-2 text-[#0068c9] text-base font-bold title-line">
+          {title}
+        </h3>
+        <div className="flex items-center mb-2">
+          <div className="flex  text-xs text-yellow-400">
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            </span>
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            </span>
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            </span>
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            </span>
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            </span>
+          </div>
+          <div className="text-xs text-gray-500 ml-2">(150)</div>
+        </div>
+        <div className="flex items-baseline mb-2 space-x-2 ">
+          {pricesale > 0 ? (
+            <>
+              <p className="text-xl text-[#cc1414] font-semibold">
+                ${pricesale}
+              </p>
+              <p className="text-sm text-gray-400 line-through">${price}</p>
+            </>
+          ) : (
+            <p className="text-xl text-gray-400 font-semibold">${pricesale}</p>
+          )}
+        </div>
+        <a
+          className="px-2 py-2 bg-[#16bcdc] rounded-lg text-center"
+          onClick={() => {
+            dispatch(addToCart(item)),
+              toast.success("Add to cart successfully");
+          }}
+        >
+          Add to cart
+        </a>
       </div>
     </div>
   );
 };
-
 export default HomeHotTrend;

@@ -14,6 +14,7 @@ import { categoryStatus, userRole } from "../../utils/constants";
 import slugify from "slugify";
 import ImageUpload from "../../components/image/ImageUpload";
 import { useAuth } from "../../contexts/auth-context";
+import Swal from "sweetalert2";
 
 const CategoryAddNew = () => {
   const { userInfo } = useAuth();
@@ -44,10 +45,10 @@ const CategoryAddNew = () => {
   } = useFirebaseImage(setValue, getValues);
   const handleAddNewCategory = async (values) => {
     if (!isValid) return;
-    if (userInfo?.role !== userRole.ADMIN) {
-      Swal.fire("Failed", "You have no right to do this action", "warning");
-      return;
-    }
+    // if (userInfo?.role !== userRole.ADMIN) {
+    //   Swal.fire("Failed", "You have no right to do this action", "warning");
+    //   return;
+    // }
     const newValues = { ...values };
     newValues.slug = slugify(newValues.name || newValues.slug, {
       lower: true,

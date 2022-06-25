@@ -39,13 +39,34 @@ function GalleryProvider(props) {
   // }
   // 1. Viết function addToCart
 
+  // function addToCart(newItem) {
+  //   // 3. Cập nhật lại state giỏ hàng (cartItems)
+
+  //   setCartItems((prevItems) => [...prevItems, newItem]);
+  // }
   function addToCart(newItem) {
     // 3. Cập nhật lại state giỏ hàng (cartItems)
-    setCartItems(newItem);
-    setValues((prevItems) => [...prevItems, newItem]);
+    setCartItems((prevItems) => {
+      // 4. Kiểm tra sản phẩm đã tồn tại trong giỏ hàng hay chưa
+      const isExisted = prevItems.some((item) => item.id === newItem.id);
+      console.log("setCartItems ~ isExisted", isExisted);
+      // 5. Nếu tồn tại thì trả về danh sách trước đó
+      if (isExisted) {
+        // setStoredCart([...prevItems]);
+        prevItems.map((item) => {
+          if (item.id === newItem.id) item.quality += 1;
+        });
+        return [...prevItems];
+      }
+      // 6. Chưa tồn tại thì thêm vào giỏ hàng
+      setCartItems([...prevItems, newItem]);
+      return [...prevItems, newItem];
+    });
   }
-
-  const [values, setValues] = useLocalStorage("cartItems", []);
+  function Decrement(productId) {
+    return (item.quality += 1);
+  }
+  // const [values, setValues] = useLocalStorage("cartItems", []);
   // function removeFromCart(photoId) {
   //   setCartItems((prevItems) => {
   //     const result = prevItems.filter((item) => item.id !== photoId);

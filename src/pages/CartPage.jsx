@@ -7,48 +7,56 @@ import {
   where,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/layout/Footer";
 import Table from "../components/table/Table";
 import { useAuth } from "../contexts/auth-context";
 import { useGallery } from "../contexts/gallery-context";
 import { db } from "../firebase-app/firebase-config";
+import { decrementQuantity, incrementQuantity } from "../redux/globalSlice";
 
 const CartPage = () => {
   const { userInfo } = useAuth();
+  // const { cartItems } = useGallery();
+  // console.log(cartItems);
+  const cart = useSelector((state) => state.count.cart);
+  console.log(cart);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [cartList, setCartList] = useState([]);
   const [count, setCount] = useState(0);
+  console.log("c", count);
   console.log(userInfo.uid);
-  useEffect(() => {
-    async function getData() {
-      const colRef = collection(db, "AuthCart");
-      const q = query(colRef, where("auth", "==", userInfo.uid));
-      const querySnapshot = await getDocs(q);
-      let result = [];
-      querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        result.push({
-          id: doc.id,
-          ...doc.data(),
-        });
-      });
-      console.log(result);
-      setCartList(result);
-    }
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   async function getData() {
+  //     const colRef = collection(db, "AuthCart");
+  //     const q = query(colRef, where("auth", "==", userInfo.uid));
+  //     const querySnapshot = await getDocs(q);
+  //     let result = [];
+  //     querySnapshot.forEach((doc) => {
+  //       // doc.data() is never undefined for query doc snapshots
+  //       result.push({
+  //         id: doc.id,
+  //         ...doc.data(),
+  //       });
+  //     });
+  //     console.log(result);
+  //     setCartList(result);
+  //   }
+  //   getData();
+  // }, []);
 
-  const data = cartList.map((item) => {
-    return item.prodcut.pricesale * item.prodcut.quality;
-  });
-  console.log(data);
+  // const data = cartList.map((item) => {
+  //   return item.prodcut.pricesale * item.prodcut.quality;
+  // });
+  // console.log(data);
 
-  let sum = 0;
-  data.map((item) => {
-    sum += item;
-  });
-  console.log(sum);
+  // let sum = 0;
+  // data.map((item) => {
+  //   sum += item;
+  // });
+  // console.log(sum);
   return (
     <div>
       <div className="container mb-5">
@@ -69,37 +77,39 @@ const CartPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {cartList.length > 0 &&
-                  cartList.map((item) => (
+                {cart.length > 0 &&
+                  cart.map((item) => (
                     <tr>
                       <td className="border border-[#dee2e6]">
                         <div className="flex items-center gap-x-3">
                           <img
-                            src={item?.prodcut?.images[0]}
+                            src={item.images}
                             alt=""
                             className="object-cover w-10 h-10 rounded-md flex-shrink-0"
                           />
                           <div className="">
-                            <h3>{item?.prodcut?.title}</h3>
+                            <h3>{item.title}</h3>
                           </div>
                         </div>{" "}
                       </td>
                       <td className="border border-[#dee2e6]">
                         {" "}
-                        {item?.prodcut?.pricesale}$
+                        {item?.pricesale}$
                       </td>
                       <td className="border border-[#dee2e6]">
                         {" "}
                         <div className="flex">
                           <div className="border border-gray-300">
-                            <div className="bg-white w-[70px]  rounded-md py-2 pl-9 pr-3 h-full sm:text-sm">
-                              {item?.prodcut?.quality}
+                            <div className="bg-white w-[100px] flex items-center text-center  rounded-md py-2 pl-9 pr-3 h-full sm:text-sm">
+                              {item.quality}
                             </div>
                           </div>
                           <div className="">
                             <div
                               className="border border-gray-300 text-[#666]"
-                              onClick={() => setCount(count + 1)}
+                              onClick={() =>
+                                dispatch(incrementQuantity(item.id))
+                              }
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -118,7 +128,9 @@ const CartPage = () => {
                             </div>
                             <div
                               className="border border-gray-300 text-[#666]"
-                              onClick={() => item?.prodcut?.quality + 1}
+                              onClick={() =>
+                                dispatch(decrementQuantity(item.id))
+                              }
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -141,7 +153,7 @@ const CartPage = () => {
                       <td className="border border-[#dee2e6]">
                         <div className="flex justify-between">
                           <div className="font-bold flex text-center items-center ">
-                            {item?.prodcut?.pricesale * item?.prodcut?.quality}
+                            {item?.pricesale * item?.quality}
                           </div>
                           <div className=" flex flex-col gap-y-2">
                             {/* <span>
@@ -191,7 +203,7 @@ const CartPage = () => {
             <div className="border-b-[1px] border-[#dee2e6]">
               <div className="flex justify-between px-5 pt-3 ">
                 <span className="font-bold ">Subtotal</span>
-                <span>{sum}$</span>
+                <span>2$</span>
               </div>
               <div className="flex justify-between px-5 pt-3">
                 <span className="font-bold ">Shipping</span>
@@ -199,7 +211,7 @@ const CartPage = () => {
               </div>
               <div className="flex justify-between px-5 py-3">
                 <span className="font-bold ">Order Total</span>
-                <span>{sum + 2}$</span>
+                <span>2$</span>
               </div>
             </div>
             <div className="pt-4">

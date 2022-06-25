@@ -1,10 +1,21 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/auth-context";
 import Button from "../button/Button";
 
 const HeaderMain = () => {
   const { userInfo } = useAuth();
+  const cart = useSelector((state) => state.global);
+  const sum = cart.map((item) => {
+    return item.quality;
+  });
+  let total = 0;
+
+  sum.map((item) => {
+    total += item;
+  });
+
   return (
     <div className="container py-4 flex justify-between items-center border-b-[1px] border-rgba-border">
       <Link to="/">
@@ -59,8 +70,8 @@ const HeaderMain = () => {
             8
           </span>
         </a>
-        <a
-          href="#"
+        <Link
+          to="/my-cart"
           className="text-center flex text-white hover:text-[#16bcdc] transition relative"
         >
           <div className="text-2xl">
@@ -80,10 +91,10 @@ const HeaderMain = () => {
             </svg>
           </div>
           <div className="text-sm items-center flex ml-3">Cart</div>
-          <span className="absolute left-0 translate-x-full -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
-            8
+          <span className="absolute left-0 translate-x-full -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs border border-black">
+            {total}
           </span>
-        </a>
+        </Link>
 
         <div className="flex text-white  transition relative">
           <div className="text-2xl">
