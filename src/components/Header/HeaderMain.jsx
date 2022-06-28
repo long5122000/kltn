@@ -6,7 +6,7 @@ import Button from "../button/Button";
 
 const HeaderMain = () => {
   const { userInfo } = useAuth();
-  const cart = useSelector((state) => state.global);
+  const cart = useSelector((state) => state.count.cart);
   const sum = cart.map((item) => {
     return item.quality;
   });

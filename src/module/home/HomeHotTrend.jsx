@@ -22,7 +22,7 @@ import { toast } from "react-toastify";
 import { useAuth } from "../../contexts/auth-context";
 import { async } from "@firebase/util";
 import { useNavigate } from "react-router-dom";
-import { addToCart } from "../../redux/addMultiCartSlice";
+import { addToCart, resetCount } from "../../redux/addMultiCartSlice";
 
 const HomeHotTrend = () => {
   // const { products, cartItems, addToCart } = useGallery();

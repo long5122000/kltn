@@ -15,7 +15,13 @@ import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase-app/firebase-config";
 import { useAuth } from "../contexts/auth-context";
 import { useDispatch, useSelector } from "react-redux";
-import { increment, decrement, addToCart } from "../redux/addMultiCartSlice";
+import {
+  increment,
+  decrement,
+  addToCart,
+  resetCount,
+} from "../redux/addMultiCartSlice";
+import { toast } from "react-toastify";
 
 const ProductDetailPage = () => {
   const { userInfo } = useAuth();
@@ -243,7 +249,11 @@ const ProductDetailPage = () => {
               </div>
               <button
                 className="py-2 px-20  text-white bg-[#16bcdc]"
-                onClick={() => dispatch(addToCart(cloneProduct))}
+                onClick={() => {
+                  dispatch(addToCart(cloneProduct)),
+                    dispatch(resetCount(cloneProduct)),
+                    toast.success("Add to cart successfully");
+                }}
               >
                 Add to cart
               </button>

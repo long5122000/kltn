@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const categories = [
   {
@@ -29,15 +30,15 @@ const menuList = [
     title: "Home",
   },
   {
-    url: "#",
+    url: "/shop",
     title: "Shop",
   },
   {
-    url: "#",
+    url: "/about",
     title: "About Us",
   },
   {
-    url: "#",
+    url: "contact",
     title: "Contact Us",
   },
 ];
@@ -80,12 +81,12 @@ const HeaderBottom = () => {
         <div className="flex items-center space-x-6 capitalize">
           {menuList.length > 0 &&
             menuList.map((item) => (
-              <a
-                href={item.url}
+              <Link
+                to={item.url}
                 className=" first:text-[#16bcdc] text-white uppercase font-normal transition"
               >
                 {item.title}
-              </a>
+              </Link>
             ))}
         </div>
         <a href="#" className="text-gray-200 hover:text-white transition">

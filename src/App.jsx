@@ -24,8 +24,10 @@ import ShopLayout from "./module/shop/ShopLayout";
 import UserAddNew from "./module/user/UserAddNew";
 import UserManage from "./module/user/UserManage";
 import UserUpdate from "./module/user/UserUpdate";
+import About from "./pages/About";
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
+import Contact from "./pages/Contact";
 import DashboardPage from "./pages/DashboardPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
@@ -55,6 +57,8 @@ function App() {
                 path="/sign-up"
                 element={<SignUpPage></SignUpPage>}
               ></Route>
+              <Route path="/contact" element={<Contact></Contact>}></Route>
+              <Route path="/about" element={<About></About>}></Route>
               <Route
                 path="/checkout"
                 element={<CheckoutPage></CheckoutPage>}

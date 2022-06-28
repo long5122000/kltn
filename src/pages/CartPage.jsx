@@ -14,7 +14,10 @@ import Table from "../components/table/Table";
 import { useAuth } from "../contexts/auth-context";
 import { useGallery } from "../contexts/gallery-context";
 import { db } from "../firebase-app/firebase-config";
-import { decrementQuantity, incrementQuantity } from "../redux/globalSlice";
+import {
+  decrementQuantity,
+  incrementQuantity,
+} from "../redux/addMultiCartSlice";
 
 const CartPage = () => {
   const { userInfo } = useAuth();

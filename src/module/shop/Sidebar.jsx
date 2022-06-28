@@ -1,6 +1,27 @@
-import React from "react";
+import { collection, getDocs } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { db } from "../../firebase-app/firebase-config";
 
 const Sidebar = () => {
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    async function getData() {
+      const colRef = collection(db, "categories");
+
+      const querySnapshot = await getDocs(colRef);
+      let result = [];
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        result.push({
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
+      setCategories(result);
+    }
+    getData();
+  }, []);
+  console.log(categories);
   return (
     <div className="col-span-1 bg-white px-4 pb-6 shadow rounded overflow-hidden">
       <div className="divide-y divide-gray-200 space-y-5">
@@ -8,62 +29,23 @@ const Sidebar = () => {
           <h3 className="text-xl text-gray-800 mb-3 mt-3 uppercase font-medium">
             categories
           </h3>
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="cat-1"
-              className="text-primary focus:ring-0 rounded-sm cursor-pointer "
-            />
-            <label
-              htmlFor="cat-1"
-              className="text-gray-600 ml-3 cursor-pointer"
-            >
-              Bedroom
-            </label>
-            <div className="ml-auto text-gray-600 text-sm">(15)</div>
-          </div>
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="cat-1"
-              className="text-primary focus:ring-0 rounded-sm cursor-pointer "
-            />
-            <label
-              htmlFor="cat-1"
-              className="text-gray-600 ml-3 cursor-pointer"
-            >
-              Bedroom
-            </label>
-            <div className="ml-auto text-gray-600 text-sm">(15)</div>
-          </div>
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="cat-1"
-              className="text-primary focus:ring-0 rounded-sm cursor-pointer "
-            />
-            <label
-              htmlFor="cat-1"
-              className="text-gray-600 ml-3 cursor-pointer"
-            >
-              Bedroom
-            </label>
-            <div className="ml-auto text-gray-600 text-sm">(15)</div>
-          </div>
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="cat-1"
-              className="text-primary focus:ring-0 rounded-sm cursor-pointer "
-            />
-            <label
-              htmlFor="cat-1"
-              className="text-gray-600 ml-3 cursor-pointer"
-            >
-              Bedroom
-            </label>
-            <div className="ml-auto text-gray-600 text-sm">(15)</div>
-          </div>
+          {categories.length > 0 &&
+            categories.map((item) => (
+              <div className="flex items-center">
+                {/* <input
+                  type="checkbox"
+                  id="cat-1"
+                  className="text-primary focus:ring-0 rounded-sm cursor-pointer "
+                /> */}
+                <label
+                  htmlFor="cat-1"
+                  className="text-gray-600 ml-3 cursor-pointer"
+                >
+                  {item.name}
+                </label>
+                {/* <div className="ml-auto text-gray-600 text-sm">(15)</div> */}
+              </div>
+            ))}
         </div>
         <div className="pt-4">
           <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">

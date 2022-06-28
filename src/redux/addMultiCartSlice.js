@@ -20,7 +20,32 @@ export const addMultiCartSlice = createSlice({
     },
     increment: (state) => ({ ...state, count: state.count + 1 }),
     decrement: (state) => ({ ...state, count: state.count - 1 }),
+    incrementQuantity: (state, action) => {
+      const item = state.cart.find((item) => item.id === action.payload);
+      item.quality++;
+    },
+    decrementQuantity: (state, action) => {
+      const item = state.cart.find((item) => item.id === action.payload);
+      if (item.quality === 1) {
+        const index = state.cart.findIndex(
+          (item) => item.id === action.payload
+        );
+        state.cart.splice(index, 1);
+      } else {
+        item.quality--;
+      }
+    },
+    resetCount: (state, action) => {
+      state.count = 1;
+    },
   },
 });
-export const { addToCart, increment, decrement } = addMultiCartSlice.actions;
+export const {
+  addToCart,
+  increment,
+  decrement,
+  incrementQuantity,
+  decrementQuantity,
+  resetCount,
+} = addMultiCartSlice.actions;
 export default addMultiCartSlice.reducer;
