@@ -27,7 +27,11 @@ const MyBill = () => {
     }
     getData();
   }, []);
-  console.log(bills);
+  const data = bills.map((item) => {
+    return item.cart[0].quality;
+  });
+  console.log(data);
+
   return (
     <div>
       <div className="container mb-5">
@@ -43,7 +47,7 @@ const MyBill = () => {
               <tr>
                 <th className="border border-[#dee2e6]">Stt</th>
                 <th className="border border-[#dee2e6]">Price</th>
-                <th className="border border-[#dee2e6]">Qty</th>
+                <th className="border border-[#dee2e6]">Date</th>
                 <th className="border border-[#dee2e6]">Subtotal</th>
               </tr>
             </thead>
@@ -66,8 +70,18 @@ const MyBill = () => {
                     <td className="border border-[#dee2e6]">
                       <div className="flex justify-between">
                         <div className="font-bold flex text-center items-center ">
-                          {item?.pricesale * item?.quality}
+                          {item?.cart[0].quality} x
                         </div>
+                        {/* <div className="font-bold flex text-center items-center ">
+                          {item?.cart[0].title}
+                        </div>
+                        <div className="font-bold flex text-center items-center ">
+                          <img
+                            src={item?.cart[0].images}
+                            alt=""
+                            className="w-[50px] h-[50px]"
+                          />
+                        </div> */}
                         <div className=" flex flex-col gap-y-2">
                           {/* <span>
                               <svg
