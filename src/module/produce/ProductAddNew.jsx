@@ -98,10 +98,9 @@ const ProductAddNew = () => {
     getBrandsData();
   }, []);
 
-  let newImage = [];
   const handleChange = (e) => {
     for (let i = 0; i < e.target.files.length; i++) {
-      newImage = e.target.files[i];
+      const newImage = e.target.files[i];
       newImage["id"] = Math.random();
       setImages((prevState) => [...prevState, newImage]);
     }
@@ -162,6 +161,8 @@ const ProductAddNew = () => {
     const cloneValues = { ...values };
     cloneValues.slug = slugify(values.slug || values.title, { lower: true });
     cloneValues.status = Number(values.status);
+    cloneValues.price = Number(values.price);
+    cloneValues.pricesale = Number(values.pricesale);
     const colRef = collection(db, "products");
     await addDoc(colRef, {
       ...cloneValues,

@@ -453,7 +453,7 @@ const ProductUpdate = () => {
           // isLoading={loading}
           // disabled={loading}
         >
-          Add new post
+          Update post
         </Button>
       </form>
     </div>

@@ -23,7 +23,7 @@ import DashboardHeading from "../dashboard/DashBoardHeading";
 import { db } from "../../firebase-app/firebase-config";
 import { bannerStatus, bannerType } from "../../utils/constants";
 
-const BANNER_PER_PAGE = 1;
+const BANNER_PER_PAGE = 100;
 
 const BannerManage = () => {
   const [bannerList, setBannerList] = useState([]);

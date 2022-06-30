@@ -12,11 +12,13 @@ import { getAuth } from "firebase/auth";
 const firebaseConfig = {
   apiKey: "AIzaSyCMPoAg7W6TFvUfcEz7NwToIOxwtLYyukE",
   authDomain: "kltn-6245e.firebaseapp.com",
+  databaseURL: "https://kltn-6245e-default-rtdb.firebaseio.com",
   projectId: "kltn-6245e",
   storageBucket: "kltn-6245e.appspot.com",
   messagingSenderId: "94368579370",
   appId: "1:94368579370:web:c42cd3ac114eae77306853",
 };
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);

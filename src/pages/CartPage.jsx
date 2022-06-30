@@ -50,16 +50,16 @@ const CartPage = () => {
   //   getData();
   // }, []);
 
-  // const data = cartList.map((item) => {
-  //   return item.prodcut.pricesale * item.prodcut.quality;
-  // });
-  // console.log(data);
+  const data = cart.map((item) => {
+    return item.pricesale * item.quality;
+  });
+  console.log(data);
 
-  // let sum = 0;
-  // data.map((item) => {
-  //   sum += item;
-  // });
-  // console.log(sum);
+  let sum = 0;
+  data.map((item) => {
+    sum += item;
+  });
+  console.log(sum);
   return (
     <div>
       <div className="container mb-5">
@@ -206,7 +206,7 @@ const CartPage = () => {
             <div className="border-b-[1px] border-[#dee2e6]">
               <div className="flex justify-between px-5 pt-3 ">
                 <span className="font-bold ">Subtotal</span>
-                <span>2$</span>
+                <span>{sum}$</span>
               </div>
               <div className="flex justify-between px-5 pt-3">
                 <span className="font-bold ">Shipping</span>
@@ -214,7 +214,7 @@ const CartPage = () => {
               </div>
               <div className="flex justify-between px-5 py-3">
                 <span className="font-bold ">Order Total</span>
-                <span>2$</span>
+                <span>{sum + 2}$</span>
               </div>
             </div>
             <div className="pt-4">

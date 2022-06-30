@@ -56,10 +56,10 @@ const CategoryUpdate = () => {
   }, [categoryId, reset]);
   const watchStatus = watch("status");
   const handleUpdateCategory = async (values) => {
-    if (userInfo?.role !== userRole.ADMIN) {
-      Swal.fire("Failed", "You have no right to do this action", "warning");
-      return;
-    }
+    // if (userInfo?.role !== userRole.ADMIN) {
+    //   Swal.fire("Failed", "You have no right to do this action", "warning");
+    //   return;
+    // }
     const colRef = doc(db, "categories", categoryId);
     await updateDoc(colRef, {
       name: values.name,

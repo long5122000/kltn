@@ -30,6 +30,8 @@ import { useGallery } from "../contexts/gallery-context";
 
 import { userRole, userStatus } from "../utils/constants";
 import Table from "../components/table/Table";
+import { useDispatch, useSelector } from "react-redux";
+import { resetCart } from "../redux/addMultiCartSlice";
 
 const CheckoutPage = () => {
   const {
@@ -41,32 +43,33 @@ const CheckoutPage = () => {
   });
   const navigate = useNavigate();
   const { userInfo } = useAuth();
+  const cart = useSelector((state) => state.count.cart);
+  const dispatch = useDispatch();
+  // const [cartList, setCartList] = useState([]);
+  // const [count, setCount] = useState(0);
+  // console.log(userInfo.uid);
+  // useEffect(() => {
+  //   async function getData() {
+  //     const colRef = collection(db, "AuthCart");
+  //     const q = query(colRef, where("auth", "==", userInfo.uid));
+  //     const querySnapshot = await getDocs(q);
+  //     let result = [];
+  //     querySnapshot.forEach((doc) => {
+  //       // doc.data() is never undefined for query doc snapshots
+  //       result.push({
+  //         id: doc.id,
+  //         ...doc.data(),
+  //       });
+  //     });
+  //     console.log(result);
+  //     setCartList(result);
+  //   }
+  //   getData();
+  // }, []);
 
-  const [cartList, setCartList] = useState([]);
-  const [count, setCount] = useState(0);
-  console.log(userInfo.uid);
-  useEffect(() => {
-    async function getData() {
-      const colRef = collection(db, "AuthCart");
-      const q = query(colRef, where("auth", "==", userInfo.uid));
-      const querySnapshot = await getDocs(q);
-      let result = [];
-      querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        result.push({
-          id: doc.id,
-          ...doc.data(),
-        });
-      });
-      console.log(result);
-      setCartList(result);
-    }
-    getData();
-  }, []);
-
-  console.log(cartList);
-  const data = cartList.map((item) => {
-    return item.prodcut.pricesale * item.prodcut.quality;
+  // console.log(cartList);
+  const data = cart.map((item) => {
+    return item.pricesale * item.quality;
   });
   console.log(data);
 
@@ -81,30 +84,19 @@ const CheckoutPage = () => {
     try {
       await addDoc(colRef, {
         ...newValues,
-        cartList,
+        cart,
         total: sum,
         createdAt: serverTimestamp(),
         auth: userInfo.uid,
       });
-      // toast.success("Checkout successfully!");
+      toast.success("Checkout successfully!");
+      navigate("/");
+      dispatch(resetCart());
     } catch (error) {
       toast.error(error.message);
     }
   };
 
-  const deleteCart = async () => {
-    console.log("hello");
-
-    const colRef = collection(db, "AuthCart");
-    const q = query(colRef, where("auth", "==", userInfo.uid));
-    const snapshot = await getDocs(q);
-    const result = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    result.forEach(async (result) => {
-      const docRef = doc(db, "AuthCart", result.id);
-      await deleteDoc(docRef);
-    });
-    navigate("/");
-  };
   return (
     <>
       <div className="container ">
@@ -139,7 +131,9 @@ const CheckoutPage = () => {
                 </Field>
 
                 <Button
-                  onClick={deleteCart}
+                  // onClick={() => {
+                  //   dispatch(resetCart());
+                  // }}
                   kind="favourite"
                   type="submit"
                   style={{
@@ -166,78 +160,38 @@ const CheckoutPage = () => {
                 >
                   <thead>
                     <tr>
-                      <th className="border border-[#dee2e6]">Item</th>
+                      <th className="border border-[#dee2e6] ">Item</th>
                       <th className="border border-[#dee2e6]">Price</th>
                       <th className="border border-[#dee2e6]">Qty</th>
                       <th className="border border-[#dee2e6]">Subtotal</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {cartList.length > 0 &&
-                      cartList.map((item) => (
+                    {cart.length > 0 &&
+                      cart.map((item) => (
                         <tr>
                           <td className="border border-[#dee2e6]">
-                            <div className="flex items-center gap-x-3">
+                            <div className="flex items-center flex-col w-[110px] gap-x-3">
                               <img
-                                src={item?.prodcut?.images[0]}
+                                src={item.images[0]}
                                 alt=""
                                 className="object-cover w-10 h-10 rounded-md flex-shrink-0"
                               />
                               <div className="">
-                                <h3>{item?.prodcut?.title}</h3>
+                                <h3 className="text-center">{item.title} </h3>
                               </div>
                             </div>{" "}
                           </td>
                           <td className="border border-[#dee2e6]">
                             {" "}
-                            {item?.prodcut?.pricesale}$
+                            {item.pricesale}$
                           </td>
                           <td className="border border-[#dee2e6]">
                             {" "}
                             <div className="flex">
                               <div className="border border-gray-300">
                                 <div className="bg-white w-[70px]  rounded-md py-2 pl-9 pr-3 h-full sm:text-sm">
-                                  {item?.prodcut?.quality}
-                                </div>
-                              </div>
-                              <div className="">
-                                <div
-                                  className="border border-gray-300 text-[#666]"
-                                  onClick={() => setCount(count + 1)}
-                                >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="h-6 w-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                  >
-                                    <path
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M5 15l7-7 7 7"
-                                    />
-                                  </svg>
-                                </div>
-                                <div
-                                  className="border border-gray-300 text-[#666]"
-                                  onClick={() => item?.prodcut?.quality + 1}
-                                >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="h-6 w-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                  >
-                                    <path
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M19 9l-7 7-7-7"
-                                    />
-                                  </svg>
+                                  {item.quality}
                                 </div>
                               </div>
                             </div>
@@ -245,8 +199,7 @@ const CheckoutPage = () => {
                           <td className="border border-[#dee2e6]">
                             <div className="flex justify-between">
                               <div className="font-bold flex text-center items-center ">
-                                {item?.prodcut?.pricesale *
-                                  item?.prodcut?.quality}
+                                {item.pricesale * item.quality}
                               </div>
                               <div className=" flex flex-col gap-y-2">
                                 {/* <span>

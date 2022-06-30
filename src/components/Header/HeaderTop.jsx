@@ -4,8 +4,8 @@ import { useAuth } from "../../contexts/auth-context";
 
 const menuLinks = [
   {
-    name: "My Account",
-    url: "/",
+    name: "My Bills",
+    url: "/my-bill",
   },
   {
     name: "About Us",
@@ -35,12 +35,12 @@ const HeaderTop = ({ contact }) => {
           {menuLinks.length > 0 &&
             menuLinks.map((item) => (
               <li className=" border-r-[1px] inline-flex border-rgba-border last:border-none">
-                <a
+                <Link
                   to={item.url}
                   className="px-3 mr-4  text-white  inline-flex leading-none text-sm hover:text-[#16bcdc] "
                 >
                   {item.name}
-                </a>
+                </Link>
               </li>
             ))}
         </ul>

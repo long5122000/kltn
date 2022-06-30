@@ -20,7 +20,11 @@ import DashboardLayout from "./module/dashboard/DashBoardLayout";
 import ProductAddNew from "./module/produce/ProductAddNew";
 import ProductManage from "./module/produce/ProductManage";
 import ProductUpdate from "./module/produce/ProductUpdate";
+import ShopCategory from "./module/shop/ShopCategory";
 import ShopLayout from "./module/shop/ShopLayout";
+import ShopPriceLarge from "./module/shop/ShopPriceLarge";
+import ShopPriceLow from "./module/shop/ShopPriceLow";
+import ShopPriceMedium from "./module/shop/ShopPriceMedium";
 import UserAddNew from "./module/user/UserAddNew";
 import UserManage from "./module/user/UserManage";
 import UserUpdate from "./module/user/UserUpdate";
@@ -29,8 +33,10 @@ import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import Contact from "./pages/Contact";
 import DashboardPage from "./pages/DashboardPage";
+import MyBill from "./pages/MyBill";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
+import SearchPage from "./pages/SearchPage";
 import SignInPage1 from "./pages/SignInPage1";
 import SignUpPage from "./pages/SignUpPage";
 import store from "./redux/configureStore";
@@ -48,7 +54,25 @@ function App() {
                 path="/product/:id"
                 element={<ProductDetailPage></ProductDetailPage>}
               ></Route>
+              <Route
+                path="/shop/:name"
+                element={<ShopCategory></ShopCategory>}
+              ></Route>
+              <Route
+                path="/shop/price100000"
+                element={<ShopPriceLow></ShopPriceLow>}
+              ></Route>
+              <Route
+                path="/shop/100000price500000"
+                element={<ShopPriceMedium></ShopPriceMedium>}
+              ></Route>
+              <Route
+                path="/shop/price500000"
+                element={<ShopPriceLarge></ShopPriceLarge>}
+              ></Route>
+              <Route path="/search" element={<SearchPage></SearchPage>}></Route>
               <Route path="/my-cart" element={<CartPage></CartPage>}></Route>
+              <Route path="/my-bill" element={<MyBill></MyBill>}></Route>
               <Route
                 path="/sign-in"
                 element={<SignInPage1></SignInPage1>}

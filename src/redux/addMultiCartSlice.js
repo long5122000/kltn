@@ -38,6 +38,9 @@ export const addMultiCartSlice = createSlice({
     resetCount: (state, action) => {
       state.count = 1;
     },
+    resetCart: (state, action) => {
+      state.cart = [];
+    },
   },
 });
 export const {
@@ -47,5 +50,6 @@ export const {
   incrementQuantity,
   decrementQuantity,
   resetCount,
+  resetCart,
 } = addMultiCartSlice.actions;
 export default addMultiCartSlice.reducer;

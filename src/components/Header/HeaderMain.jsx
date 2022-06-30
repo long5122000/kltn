@@ -1,12 +1,18 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/auth-context";
-import Button from "../button/Button";
 
+import Button from "../button/Button";
+import { debounce } from "lodash";
+import { filterSearch } from "../../redux/globalSlice";
 const HeaderMain = () => {
   const { userInfo } = useAuth();
+  const filter = useSelector((state) => state.global.search);
+
   const cart = useSelector((state) => state.count.cart);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const sum = cart.map((item) => {
     return item.quality;
   });
@@ -15,19 +21,29 @@ const HeaderMain = () => {
   sum.map((item) => {
     total += item;
   });
-
+  const handleSearch = debounce((e) => {
+    dispatch(filterSearch(e.target.value));
+  }, 500);
+  const handleClick = (e) => {
+    navigate("/search");
+  };
   return (
     <div className="container py-4 flex justify-between items-center border-b-[1px] border-rgba-border">
       <Link to="/">
         <img src="../logo.webp" alt="" className="w-44 h-6" />
       </Link>
+
       <div className="w-full max-w-sm relative flex">
         <input
           type="text "
           className="w-full border  border-r-0 pl-6 py-3 pr-14 rounded-sm focus:outline-none"
           placeholder="Search entire store here..."
+          onChange={handleSearch}
         />
-        <span className="absolute right-2 top-1/2 bg-[#16bcdc] -translate-y-1/2 py-2 px-2 rounded-sm  text-lg text-gray-400">
+        <button
+          onClick={handleClick}
+          className="absolute right-2 top-1/2 bg-[#16bcdc] -translate-y-1/2 py-2 px-2 rounded-sm  text-lg text-gray-400"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6 text-white"
@@ -42,8 +58,9 @@ const HeaderMain = () => {
               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
             />
           </svg>
-        </span>
+        </button>
       </div>
+
       <div className="flex items-center space-x-8">
         <a
           href="#"

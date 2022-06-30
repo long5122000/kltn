@@ -1,28 +1,30 @@
-import React, { useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { db } from "../../firebase-app/firebase-config";
 
-const categories = [
-  {
-    url: "../icons/smartphone-svgrepo-com.svg",
-    title: "Phone",
-  },
-  {
-    url: "../icons/tablet-svgrepo-com.svg",
-    title: "Table",
-  },
-  {
-    url: "../icons/laptop-svgrepo-com.svg",
-    title: "Latop",
-  },
-  {
-    url: "../icons/earphones-svgrepo-com.svg",
-    title: "Earphone",
-  },
-  {
-    url: "../icons/apple-watch-svgrepo-com.svg",
-    title: "Watch",
-  },
-];
+// const categories = [
+//   {
+//     url: "../icons/smartphone-svgrepo-com.svg",
+//     title: "Phone",
+//   },
+//   {
+//     url: "../icons/tablet-svgrepo-com.svg",
+//     title: "Table",
+//   },
+//   {
+//     url: "../icons/laptop-svgrepo-com.svg",
+//     title: "Latop",
+//   },
+//   {
+//     url: "../icons/earphones-svgrepo-com.svg",
+//     title: "Earphone",
+//   },
+//   {
+//     url: "../icons/apple-watch-svgrepo-com.svg",
+//     title: "Watch",
+//   },
+// ];
 
 const menuList = [
   {
@@ -44,6 +46,23 @@ const menuList = [
 ];
 
 const HeaderBottom = () => {
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    async function getData() {
+      const colRef = collection(db, "categories");
+      const querySnapshot = await getDocs(colRef);
+      let result = [];
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        result.push({
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
+      setCategories(result);
+    }
+    getData();
+  }, []);
   return (
     <div className="container flex">
       <div className="px-12 py-4 hover:bg-[#16bcdc] transition flex items-center cursor-pointer relative group">
@@ -67,13 +86,12 @@ const HeaderBottom = () => {
         <div className="absolute w-full left-0 top-full bg-white shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 transition duration-300 invisible group-hover:visible z-10">
           {categories.length > 0 &&
             categories.map((item) => (
-              <a
-                href="#"
+              <Link
+                to={`/shop/${item.slug}`}
                 className="flex items-center px-6 py-3 hover:bg-gray-100 transition"
               >
-                <img src={item.url} alt="" className="w-5 h-5 object-contain" />
-                <span className="ml-6 text-gray-600 text-sm">{item.title}</span>
-              </a>
+                <span className="ml-6 text-gray-600 text-sm">{item.name}</span>
+              </Link>
             ))}
         </div>
       </div>
