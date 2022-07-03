@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Button from "../components/button/Button";
 import Field from "../components/field/Field";
 import Input from "../components/input/Input";
@@ -44,7 +44,7 @@ const SignUpPage = () => {
     mode: "onChange",
     resolver: yupResolver(schema),
   });
-
+  const navigate = useNavigate();
   const handleSignUp = async (values) => {
     if (!isValid) return;
     await createUserWithEmailAndPassword(auth, values.email, values.password);
@@ -64,14 +64,15 @@ const SignUpPage = () => {
       role: userRole.USER,
       createdAt: serverTimestamp(),
     });
-    toast.success("Register successfully");
+    toast.success("Register successfully!!!");
+    navigate("/");
   };
   useEffect(() => {
     const arrErrors = Object.values(errors);
     if (arrErrors.length > 0) {
       toast.error(arrErrors[0]?.message, {
         pauseOnHover: false,
-        delay: 0,
+        delay: 250,
       });
     }
   }, [errors]);

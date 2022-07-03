@@ -136,7 +136,6 @@ const CartPage = () => {
                             </div>
                             <div className="border border-gray-300">
                               <button
-                                disabled
                                 className=" text-[#666]"
                                 onClick={() =>
                                   dispatch(decrementQuantity(item.id))

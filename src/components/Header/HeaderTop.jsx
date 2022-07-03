@@ -9,15 +9,11 @@ const menuLinks = [
   },
   {
     name: "About Us",
-    url: "/",
+    url: "/about",
   },
   {
     name: "Contact Us",
-    url: "/",
-  },
-  {
-    name: "FAQs",
-    url: "/",
+    url: "/contact",
   },
 ];
 console.log(menuLinks);
