@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { startAfter } from "firebase/firestore";
+import { useEffect } from "react";
 
 export const addMultiCartSlice = createSlice({
   name: "count",
@@ -18,6 +19,7 @@ export const addMultiCartSlice = createSlice({
         state.cart.push({ ...action.payload, quality: state.count });
       }
     },
+
     increment: (state) => ({ ...state, count: state.count + 1 }),
     decrement: (state) => ({ ...state, count: state.count - 1 }),
     incrementQuantity: (state, action) => {

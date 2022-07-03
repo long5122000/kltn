@@ -36,7 +36,6 @@ const ProductDetailPage = () => {
 
   const productid = useParams().id;
   console.log(productid);
-  const [productList, setProductList] = useState({});
   const [product, setProduct] = useState([]);
   useEffect(() => {
     async function fetchData() {
@@ -49,25 +48,7 @@ const ProductDetailPage = () => {
     }
     fetchData();
   }, []);
-  useEffect(() => {
-    async function fetchData() {
-      const docRef = doc(db, "products", productid);
-      const docSnapshot = await getDoc(docRef);
-      if (docSnapshot.data()) {
-        setProductList(docSnapshot.data());
-      }
-    }
-    fetchData();
-  }, []);
 
-  const handleAddDoc = async () => {
-    const docRef = await addDoc(collection(db, "AuthCart"), {
-      auth: userInfo.uid,
-      prodcut: productList,
-    });
-    console.log("Document written with ID: ", docRef.id);
-  };
-  console.log("pr", product);
   const cloneProduct = { ...product, id: productid };
   const {
     id: prodcutId,
@@ -162,7 +143,7 @@ const ProductDetailPage = () => {
                 </div>
                 <div className="">
                   <div
-                    className="border border-gray-300 text-[#666]"
+                    className="border border-gray-300 text-[#666] disabled:opacity-75"
                     onClick={() => dispatch(increment())}
                   >
                     <svg
@@ -201,19 +182,33 @@ const ProductDetailPage = () => {
                   </div>
                 </div>
               </div>
-              <button
-                className="py-2 px-20  text-white bg-[#16bcdc]"
-                onClick={() => {
-                  dispatch(addToCart(cloneProduct)),
-                    dispatch(resetCount(cloneProduct)),
-                    toast.success("Add to cart successfully");
-                }}
-              >
-                Add to cart
-              </button>
+              {product?.quality < cart ? (
+                <button
+                  disabled
+                  className="py-2 px-20  text-white bg-[#16bcdc]"
+                  onClick={() => {
+                    dispatch(addToCart(cloneProduct)),
+                      dispatch(resetCount(cloneProduct)),
+                      toast.success("Add to cart successfully");
+                  }}
+                >
+                  Add to cart
+                </button>
+              ) : (
+                <button
+                  className="py-2 px-20  text-white bg-[#16bcdc]"
+                  onClick={() => {
+                    dispatch(addToCart(cloneProduct)),
+                      dispatch(resetCount(cloneProduct)),
+                      toast.success("Add to cart successfully");
+                  }}
+                >
+                  Add to cart
+                </button>
+              )}
             </div>
             <div className="flex mb-5">
-              <div className="text-sm text-[#666] items-center flex ml-3">
+              {/* <div className="text-sm text-[#666] items-center flex ml-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5 mr-3 "
@@ -229,7 +224,8 @@ const ProductDetailPage = () => {
                   />
                 </svg>
                 Add To Wish List
-              </div>
+              </div> */}
+              Quantity: {product?.quality}
             </div>
             <hr />
             <div className="mt-4">
@@ -331,7 +327,7 @@ const ProductDetailPage = () => {
             </svg>
           </a>
         </div>
-        <ProductList></ProductList>
+        {/* <ProductList></ProductList> */}
       </div>
       <Footer></Footer>
     </>

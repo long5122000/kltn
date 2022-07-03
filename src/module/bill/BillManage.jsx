@@ -112,7 +112,7 @@ const BillManage = () => {
           {billList.length > 0 &&
             billList.map((bill) => (
               <tr key={bill.id}>
-                <td title={bill.id}>{bill.id.slice(0, 5) + "..."}</td>
+                <td title={bill.id}>{bill.id}</td>
                 <td title={bill.address}>{bill.address}</td>
 
                 <td title={bill.desc}>{bill.auth.slice(0, 30) + "..."}</td>

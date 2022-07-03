@@ -88,7 +88,7 @@ const ProductUpdate = () => {
         setSelectCategory(docSnapshot.data()?.category || "");
         setSelectBrands(docSnapshot.data()?.brands?.name || "");
         setContent(docSnapshot.data()?.content || "");
-        setImages(docSnapshot.data()?.images || "");
+        setUrls(docSnapshot.data()?.images || "");
       }
       console.log(docSnapshot.data());
     }
@@ -151,6 +151,7 @@ const ProductUpdate = () => {
     await updateDoc(colRef, {
       images: "",
     });
+    setUrls("");
   }
   let newImage = [];
   const handleChange = (e) => {
@@ -255,8 +256,8 @@ const ProductUpdate = () => {
                     alt="firebase-image"
                   />
                 ))} */}
-                {images &&
-                  images.map((item, i) => (
+                {urls &&
+                  urls.map((item, i) => (
                     <Fragment key={i}>
                       <label
                         className={`cursor-pointer flex items-center justify-center border border-dashed w-full min-h-[200px] rounded-lg  relative overflow-hidden group`}

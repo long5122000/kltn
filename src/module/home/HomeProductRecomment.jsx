@@ -26,6 +26,7 @@ const HomeProductRecomment = () => {
     }
     getData();
   }, []);
+  console.log("re", productList);
   return (
     <div className="container">
       <div className="product-list">

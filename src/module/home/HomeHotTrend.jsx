@@ -109,7 +109,7 @@ const ProductItem = ({
           {Math.floor(100 - (pricesale / price) * 100)}%
         </span>
       )}
-      <div className="absolute -right-full top-5 item-option transition-all flex gap-2 flex-col">
+      {/* <div className="absolute -right-full top-5 item-option transition-all flex gap-2 flex-col">
         <a className="text-[#434242] bg-slate-200 rounded-full p-2 hover:bg-[#16bcdc] hover:text-white">
           <span>
             <svg
@@ -149,7 +149,7 @@ const ProductItem = ({
             />
           </svg>
         </a>
-      </div>
+      </div> */}
       /*{" "}
       <img
         src={images}
@@ -159,7 +159,7 @@ const ProductItem = ({
       />
       <div className="flex flex-col flex-1">
         <h3 className="mb-2 text-[#0068c9] text-base font-bold title-line">
-          {title}
+          {title.length > 20 ? title.slice(0, 20) + "..." : title}
         </h3>
         <div className="flex items-center mb-2">
           <div className="flex  text-xs text-yellow-400">
@@ -225,7 +225,7 @@ const ProductItem = ({
               <p className="text-sm text-gray-400 line-through">${price}</p>
             </>
           ) : (
-            <p className="text-xl text-gray-400 font-semibold">${pricesale}</p>
+            <p className="text-xl text-gray-400 font-semibold">${price}</p>
           )}
         </div>
         <a

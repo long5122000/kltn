@@ -85,7 +85,7 @@ const CheckoutPage = () => {
       await addDoc(colRef, {
         ...newValues,
         cart,
-        total: sum,
+        total: sum + 15,
         createdAt: serverTimestamp(),
         auth: userInfo.uid,
       });

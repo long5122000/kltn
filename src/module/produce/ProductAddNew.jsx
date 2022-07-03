@@ -98,14 +98,6 @@ const ProductAddNew = () => {
     getBrandsData();
   }, []);
 
-  const handleChange = (e) => {
-    for (let i = 0; i < e.target.files.length; i++) {
-      const newImage = e.target.files[i];
-      newImage["id"] = Math.random();
-      setImages((prevState) => [...prevState, newImage]);
-    }
-  };
-  console.log(images);
   const handleUpload = () => {
     const promises = [];
     const storage = getStorage();
@@ -135,10 +127,19 @@ const ProductAddNew = () => {
     });
 
     Promise.all(promises)
-      .then(() => alert("All images uploaded"))
+      .then(() => toast.success("All images uploaded"))
       .catch((err) => console.log(err));
   };
+
   setValue("images", urls);
+  const handleChange = (e) => {
+    for (let i = 0; i < e.target.files.length; i++) {
+      const newImage = e.target.files[i];
+      newImage["id"] = Math.random();
+      setImages((prevState) => [...prevState, newImage]);
+    }
+  };
+
   const handleClickOptionCategory = async (item) => {
     const colRef = doc(db, "categories", item.id);
     const docData = await getDoc(colRef);
@@ -212,11 +213,26 @@ const ProductAddNew = () => {
             <Label>Image</Label>
             <div className="flex">
               <div className="">
-                <progress value={progress} max="100" />
-                <br />
-                <br />
-                <input type="file" multiple onChange={handleChange} />
-                <button onClick={handleUpload}>Upload</button>
+                <div className="">
+                  <progress value={progress} max="100" />
+                  <br />
+                  <br />
+                  <input
+                    type="file"
+                    multiple
+                    onChange={handleChange}
+                    className="block w-full text-sm text-slate-500"
+                  />
+                </div>
+                <div>
+                  <Button
+                    type="button"
+                    className="mt-[20px] w-[100px]"
+                    onClick={handleUpload}
+                  >
+                    Upload Images
+                  </Button>
+                </div>
                 <br />
               </div>
               <div className="flex gap-x-2">

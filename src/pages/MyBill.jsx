@@ -1,5 +1,7 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ActionView from "../components/action/ActionView";
 import Footer from "../components/layout/Footer";
 import Table from "../components/table/Table";
 import { useAuth } from "../contexts/auth-context";
@@ -7,6 +9,7 @@ import { db } from "../firebase-app/firebase-config";
 
 const MyBill = () => {
   const { userInfo } = useAuth();
+  const navigate = useNavigate();
   console.log(userInfo.uid);
   const [bills, setBills] = useState([]);
   useEffect(() => {
@@ -27,8 +30,9 @@ const MyBill = () => {
     }
     getData();
   }, []);
+  console.log(bills);
   const data = bills.map((item) => {
-    return item.cart[0].quality;
+    return item.cart;
   });
   console.log(data);
 
@@ -46,9 +50,9 @@ const MyBill = () => {
             <thead>
               <tr>
                 <th className="border border-[#dee2e6]">Stt</th>
-                <th className="border border-[#dee2e6]">Price</th>
                 <th className="border border-[#dee2e6]">Date</th>
-                <th className="border border-[#dee2e6]">Subtotal</th>
+                <th className="border border-[#dee2e6]">Total</th>
+                <th className="border border-[#dee2e6]">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -60,17 +64,20 @@ const MyBill = () => {
                         <p>{i + 1}</p>
                       </div>{" "}
                     </td>
-                    <td className="border border-[#dee2e6]"> {item?.total}$</td>
+
                     <td className="border border-[#dee2e6]">
                       {" "}
                       {new Date(
                         item?.createdAt?.seconds * 1000
                       ).toLocaleDateString("vi-VI")}
                     </td>
+                    <td className="border border-[#dee2e6]"> {item?.total}$</td>
                     <td className="border border-[#dee2e6]">
                       <div className="flex justify-between">
                         <div className="font-bold flex text-center items-center ">
-                          {item?.cart[0].quality} x
+                          <ActionView
+                            onClick={() => navigate(`/my-bill/${item?.id}`)}
+                          ></ActionView>
                         </div>
                         {/* <div className="font-bold flex text-center items-center ">
                           {item?.cart[0].title}

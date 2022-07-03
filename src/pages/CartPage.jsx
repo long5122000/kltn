@@ -13,6 +13,7 @@ import Footer from "../components/layout/Footer";
 import Table from "../components/table/Table";
 import { useAuth } from "../contexts/auth-context";
 import { useGallery } from "../contexts/gallery-context";
+import { useProduct } from "../contexts/product-context";
 import { db } from "../firebase-app/firebase-config";
 import {
   decrementQuantity,
@@ -22,6 +23,8 @@ import {
 const CartPage = () => {
   const { userInfo } = useAuth();
   // const { cartItems } = useGallery();
+  const { products, productPrice } = useProduct();
+  console.log(productPrice);
   // console.log(cartItems);
   const cart = useSelector((state) => state.count.cart);
   console.log(cart);
@@ -107,48 +110,53 @@ const CartPage = () => {
                               {item.quality}
                             </div>
                           </div>
-                          <div className="">
-                            <div
-                              className="border border-gray-300 text-[#666]"
-                              onClick={() =>
-                                dispatch(incrementQuantity(item.id))
-                              }
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-6 w-6"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                stroke-width="2"
+                          <div className="flex flex-col">
+                            <div className="border border-gray-300">
+                              <button
+                                className=" text-[#666]"
+                                onClick={() =>
+                                  dispatch(incrementQuantity(item.id))
+                                }
                               >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M5 15l7-7 7 7"
-                                />
-                              </svg>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  class="h-6 w-6"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M5 15l7-7 7 7"
+                                  />
+                                </svg>
+                              </button>
                             </div>
-                            <div
-                              className="border border-gray-300 text-[#666]"
-                              onClick={() =>
-                                dispatch(decrementQuantity(item.id))
-                              }
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                class="h-6 w-6"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                stroke-width="2"
+                            <div className="border border-gray-300">
+                              <button
+                                disabled
+                                className=" text-[#666]"
+                                onClick={() =>
+                                  dispatch(decrementQuantity(item.id))
+                                }
                               >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M19 9l-7 7-7-7"
-                                />
-                              </svg>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  class="h-6 w-6"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M19 9l-7 7-7-7"
+                                  />
+                                </svg>
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -210,11 +218,11 @@ const CartPage = () => {
               </div>
               <div className="flex justify-between px-5 pt-3">
                 <span className="font-bold ">Shipping</span>
-                <span>2$</span>
+                <span>15$</span>
               </div>
               <div className="flex justify-between px-5 py-3">
                 <span className="font-bold ">Order Total</span>
-                <span>{sum + 2}$</span>
+                <span>{sum + 15}$</span>
               </div>
             </div>
             <div className="pt-4">
