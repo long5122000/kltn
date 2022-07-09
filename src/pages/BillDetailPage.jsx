@@ -61,12 +61,12 @@ const BillDetailPage = () => {
                     {" "}
                     <span className="flex items-center text-center font-bold justify-center">
                       {" "}
-                      x {item.quality}{" "}
+                      x {item.totalquantyti}{" "}
                     </span>
                   </td>
                   <td className="w-[100px] text-center">
                     <span className="flex items-center text-center font-bold justify-center">
-                      {item.pricesale * item.quality}
+                      {item.pricesale * item.totalquantyti}
                     </span>
                   </td>
                 </tr>

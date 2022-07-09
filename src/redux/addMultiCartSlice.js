@@ -14,27 +14,30 @@ export const addMultiCartSlice = createSlice({
         (item) => item.id === action.payload.id
       );
       if (itemExists) {
-        itemExists.quality = itemExists.quality + state.count;
+        if (itemExists.totalquantyti < itemExists.quality) {
+          itemExists.totalquantyti = itemExists.totalquantyti + state.count;
+        }
       } else {
-        state.cart.push({ ...action.payload, quality: state.count });
+        state.cart.push({ ...action.payload, totalquantyti: state.count });
       }
     },
 
     increment: (state) => ({ ...state, count: state.count + 1 }),
     decrement: (state) => ({ ...state, count: state.count - 1 }),
+
     incrementQuantity: (state, action) => {
       const item = state.cart.find((item) => item.id === action.payload);
-      item.quality++;
+      item.totalquantyti++;
     },
     decrementQuantity: (state, action) => {
       const item = state.cart.find((item) => item.id === action.payload);
-      if (item.quality === 1) {
+      if (item.totalquantyti === 1) {
         const index = state.cart.findIndex(
           (item) => item.id === action.payload
         );
         state.cart.splice(index, 1);
       } else {
-        item.quality--;
+        item.totalquantyti--;
       }
     },
     resetCount: (state, action) => {

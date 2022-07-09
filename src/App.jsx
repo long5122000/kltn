@@ -11,6 +11,7 @@ import BannerAddNew from "./module/banner/BannerAddNew";
 import BannerManage from "./module/banner/BannerManage";
 import BannerUpdate from "./module/banner/BannerUpdate";
 import BillManage from "./module/bill/BillManage";
+import BillUpdate from "./module/bill/BillUpdate";
 import BrandAddnew from "./module/brand/BrandAddnew";
 import BrandManage from "./module/brand/BrandManage";
 import BrandUpdate from "./module/brand/BrandUpdate";
@@ -147,6 +148,10 @@ function App() {
                 <Route
                   path="/manage/bills"
                   element={<BillManage></BillManage>}
+                ></Route>
+                <Route
+                  path="/manage/update-bill"
+                  element={<BillUpdate></BillUpdate>}
                 ></Route>
                 <Route
                   path="/manage/add-product"

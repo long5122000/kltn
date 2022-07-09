@@ -1,5 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import { useAuth } from "../../contexts/auth-context";
 import HeaderBottom from "../Header/HeaderBottom";
 import HeaderMain from "../Header/HeaderMain";
 import HeaderTop from "../Header/HeaderTop";

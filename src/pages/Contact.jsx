@@ -19,7 +19,7 @@ const Contact = () => {
             available for this purpose.
           </p>
         </div>
-        <div>
+        <div className="container">
           <img src="../cotact-banner.jpeg" alt="" />
         </div>
         <div className="container py-10">

@@ -28,7 +28,7 @@ import {
 import { useAuth } from "../contexts/auth-context";
 import { useGallery } from "../contexts/gallery-context";
 
-import { userRole, userStatus } from "../utils/constants";
+import { billStatus, userRole, userStatus } from "../utils/constants";
 import Table from "../components/table/Table";
 import { useDispatch, useSelector } from "react-redux";
 import { resetCart } from "../redux/addMultiCartSlice";
@@ -44,6 +44,7 @@ const CheckoutPage = () => {
   const navigate = useNavigate();
   const { userInfo } = useAuth();
   const cart = useSelector((state) => state.count.cart);
+  console.log(cart);
   const dispatch = useDispatch();
   // const [cartList, setCartList] = useState([]);
   // const [count, setCount] = useState(0);
@@ -69,7 +70,7 @@ const CheckoutPage = () => {
 
   // console.log(cartList);
   const data = cart.map((item) => {
-    return item.pricesale * item.quality;
+    return item.pricesale * item.totalquantyti;
   });
   console.log(data);
 
@@ -88,6 +89,7 @@ const CheckoutPage = () => {
         total: sum + 15,
         createdAt: serverTimestamp(),
         auth: userInfo.uid,
+        status: billStatus.PENDING,
       });
       toast.success("Checkout successfully!");
       navigate("/");
@@ -191,7 +193,7 @@ const CheckoutPage = () => {
                             <div className="flex">
                               <div className="border border-gray-300">
                                 <div className="bg-white w-[70px]  rounded-md py-2 pl-9 pr-3 h-full sm:text-sm">
-                                  {item.quality}
+                                  {item.totalquantyti}
                                 </div>
                               </div>
                             </div>
@@ -199,7 +201,7 @@ const CheckoutPage = () => {
                           <td className="border border-[#dee2e6]">
                             <div className="flex justify-between">
                               <div className="font-bold flex text-center items-center ">
-                                {item.pricesale * item.quality}
+                                {item.pricesale * item.totalquantyti}
                               </div>
                               <div className=" flex flex-col gap-y-2">
                                 {/* <span>

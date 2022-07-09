@@ -16,6 +16,8 @@ import ActionView from "../../components/action/ActionView";
 import ActionEdit from "../../components/action/ActionEdit";
 import DashboardHeading from "../dashboard/DashBoardHeading";
 import Button from "../../components/button/Button";
+import LabelStatus from "../../components/label/LabelStatus";
+import { billStatus } from "../../utils/constants";
 const BillManage = () => {
   const [billList, setBillList] = useState([]);
   const navigate = useNavigate();
@@ -78,13 +80,25 @@ const BillManage = () => {
     }
     fetchData();
   }, [filter]);
+  const renderBillStatus = (status) => {
+    switch (status) {
+      case billStatus.APPROVED:
+        return <LabelStatus type="success">Approved</LabelStatus>;
+      case billStatus.PENDING:
+        return <LabelStatus type="warning">Pending</LabelStatus>;
+      case billStatus.REJECTED:
+        return <LabelStatus type="danger">Rejected</LabelStatus>;
 
+      default:
+        break;
+    }
+  };
   const handleInputFilter = debounce((e) => {
     setFilter(e.target.value);
   }, 500);
   return (
     <div>
-      <DashboardHeading title="Banners" desc="Manage your Banner">
+      <DashboardHeading title="Bills" desc="Manage your Bill">
         {/* <Button kind="ghost" height="60px" to="/manage/add-banner">
           Create banner
         </Button> */}
@@ -102,7 +116,7 @@ const BillManage = () => {
           <tr>
             <th>Id</th>
             <th>Address</th>
-            <th>AuthId</th>
+            <th>Status</th>
             <th>Phone</th>
             <th>Total</th>
             <th>Action</th>
@@ -115,14 +129,11 @@ const BillManage = () => {
                 <td title={bill.id}>{bill.id}</td>
                 <td title={bill.address}>{bill.address}</td>
 
-                <td title={bill.desc}>{bill.auth.slice(0, 30) + "..."}</td>
+                <td>{renderBillStatus(bill?.status)}</td>
                 <td>{bill?.phone}</td>
                 <td>{bill.total}</td>
                 <td>
                   <div className="flex items-center gap-x-3 text-gray-500">
-                    <ActionView
-                      onClick={() => navigate(`/bill/${bill.slug}`)}
-                    ></ActionView>
                     <ActionEdit
                       onClick={() =>
                         navigate(`/manage/update-bill?id=${bill.id}`)

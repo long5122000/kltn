@@ -37,6 +37,11 @@ export const productStatus = {
   PENDING: 2,
   REJECTED: 3,
 };
+export const billStatus = {
+  APPROVED: 1,
+  PENDING: 2,
+  REJECTED: 3,
+};
 export const userStatus = {
   ACTIVE: 1,
   PENDING: 2,

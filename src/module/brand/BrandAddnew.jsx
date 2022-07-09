@@ -6,9 +6,11 @@ import slugify from "slugify";
 import Button from "../../components/button/Button";
 import Radio from "../../components/checkbox/Radio";
 import Field from "../../components/field/Field";
+import ImageUpload from "../../components/image/ImageUpload";
 import Input from "../../components/input/Input";
 import Label from "../../components/label/Label";
 import { db } from "../../firebase-app/firebase-config";
+import useFirebaseImage from "../../hook/useFirebaseImage";
 import { brandStatus, productStatus } from "../../utils/constants";
 import DashboardHeading from "../dashboard/DashBoardHeading";
 
@@ -18,10 +20,27 @@ const BrandAddnew = () => {
     control,
     watch,
     reset,
+    setValue,
+    getValues,
     formState: { isValid },
   } = useForm({
     mode: "onChange",
+    defaultValues: {
+      title: "",
+      desc: "",
+      type: 1,
+      status: 1,
+      createdAt: new Date(),
+      image: "",
+    },
   });
+  const {
+    handleSelectImage,
+    handleResetUpload,
+    handleDeleteImage,
+    image,
+    progress,
+  } = useFirebaseImage(setValue, getValues);
   const watchStatus = watch("status");
   const handleAddNewBrand = async (values) => {
     if (!isValid) return;
@@ -34,6 +53,7 @@ const BrandAddnew = () => {
     try {
       await addDoc(colRef, {
         ...newValues,
+        image,
         createdAt: serverTimestamp(),
       });
       toast.success("Create new category successfully!");
@@ -43,6 +63,7 @@ const BrandAddnew = () => {
       reset({
         name: "",
         slug: "",
+        image: "",
         status: 1,
         createdAt: new Date(),
       });
@@ -97,7 +118,18 @@ const BrandAddnew = () => {
               </Radio>
             </div>
           </Field>
+          <Field>
+            <Label>Image</Label>
+            <ImageUpload
+              onChange={handleSelectImage}
+              progress={progress}
+              image={image}
+              handleDeleteImage={handleDeleteImage}
+              className="h-[300px]"
+            ></ImageUpload>
+          </Field>
         </div>
+
         <Button
           kind="primary"
           type="submit"

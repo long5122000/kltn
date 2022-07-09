@@ -6,15 +6,19 @@ import { useAuth } from "../../contexts/auth-context";
 import Button from "../button/Button";
 import { debounce } from "lodash";
 import { filterSearch } from "../../redux/globalSlice";
+import { userRole } from "../../utils/constants";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase-app/firebase-config";
 const HeaderMain = () => {
   const { userInfo } = useAuth();
+  console.log(userInfo);
   const filter = useSelector((state) => state.global.search);
 
   const cart = useSelector((state) => state.count.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const sum = cart.map((item) => {
-    return item.quality;
+    return item.totalquantyti;
   });
   let total = 0;
 
@@ -62,7 +66,7 @@ const HeaderMain = () => {
       </div>
 
       <div className="flex items-center space-x-8">
-        <a
+        {/* <a
           href="#"
           className="text-center flex text-white hover:text-[#16bcdc] transition relative"
         >
@@ -86,35 +90,63 @@ const HeaderMain = () => {
           <span className="absolute left-0 translate-x-full -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
             8
           </span>
-        </a>
-        <Link
-          to="/my-cart"
-          className="text-center flex text-white hover:text-[#16bcdc] transition relative"
-        >
-          <div className="text-2xl">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-8 w-8 mx-auto"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-              />
-            </svg>
-          </div>
-          <div className="text-sm items-center flex ml-3">Cart</div>
-          <span className="absolute left-0 translate-x-full -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs border border-black">
-            {total}
-          </span>
-        </Link>
+        </a> */}
+        {userInfo ? (
+          <Link
+            to="/my-cart"
+            className="text-center flex text-white hover:text-[#16bcdc] transition relative"
+          >
+            <div className="text-2xl">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-8 w-8 mx-auto"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                />
+              </svg>
+            </div>
+            <div className="text-sm items-center flex ml-3">Cart</div>
+            <span className="absolute left-0 translate-x-full -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs border border-black">
+              {total}
+            </span>
+          </Link>
+        ) : (
+          <Link
+            to="/sign-in"
+            className="text-center flex text-white hover:text-[#16bcdc] transition relative"
+          >
+            <div className="text-2xl">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-8 w-8 mx-auto"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                />
+              </svg>
+            </div>
+            <div className="text-sm items-center flex ml-3">Cart</div>
+            <span className="absolute left-0 translate-x-full -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs border border-black">
+              {total}
+            </span>
+          </Link>
+        )}
 
-        <div className="flex text-white  transition relative">
-          <div className="text-2xl">
+        <div className="flex text-white  transition ">
+          <div className="text-2xl relative group">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-8 w-8 mx-auto"
@@ -129,9 +161,56 @@ const HeaderMain = () => {
                 d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
               />
             </svg>
+            <div className="absolute w-[150px] left-0 top-full bg-white shadow-md py-3 divide-y divide-gray-300 divide-dashed rounded-xl z-10 transitioz-10 invisible group-hover:visible">
+              {userInfo?.role === userRole.ADMIN ||
+              userInfo?.role === userRole.MOD ? (
+                <Link
+                  to={`/dashboard`}
+                  className="flex items-center px-1 py-3 hover:bg-gray-100 transition"
+                >
+                  <p className="ml-3 text-gray-600 text-sm font-medium">
+                    Admin Dashboard
+                  </p>
+                </Link>
+              ) : (
+                ""
+              )}
+              <Link
+                to={`/info`}
+                className="flex items-center px-1 py-3 hover:bg-gray-100 transition"
+              >
+                <p className="ml-3 text-gray-600 text-sm font-medium">
+                  My Info
+                </p>
+              </Link>
+              {!userInfo ? (
+                <Link
+                  to={`/sign-in`}
+                  className="flex items-center px-1 py-3 hover:bg-gray-100 transition"
+                >
+                  <p className="ml-3 text-gray-600 text-sm font-medium">
+                    Login
+                  </p>
+                </Link>
+              ) : (
+                <div className="header-auth">
+                  <p
+                    className="flex items-center px-1 py-3 hover:bg-gray-100 transition"
+                    onClick={() => signOut(auth)}
+                  >
+                    <p className="ml-3 text-gray-600 text-sm font-medium cursor-pointer">
+                      Logout
+                    </p>
+                  </p>
+                </div>
+              )}{" "}
+            </div>
+          </div>
+          <div className="text-sm items-center flex ml-3 ">
+            {userInfo?.displayName}
           </div>
 
-          {!userInfo ? (
+          {/* {!userInfo ? (
             <Button
               type="button"
               height="36px"
@@ -151,7 +230,7 @@ const HeaderMain = () => {
                 Dashboard
               </Button>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>

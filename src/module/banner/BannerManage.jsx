@@ -173,9 +173,6 @@ const BannerManage = () => {
                 </td>
                 <td>
                   <div className="flex items-center gap-x-3 text-gray-500">
-                    <ActionView
-                      onClick={() => navigate(`/banner/${banner.slug}`)}
-                    ></ActionView>
                     <ActionEdit
                       onClick={() =>
                         navigate(`/manage/update-banner?id=${banner.id}`)

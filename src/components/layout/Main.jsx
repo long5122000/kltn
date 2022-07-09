@@ -2,6 +2,7 @@ import React from "react";
 import PopularCategory from "../../module/category/PopularCategory";
 import HomeBanner from "../../module/home/HomeBanner";
 import HomeBannerBottom from "../../module/home/HomeBannerBottom";
+import HomeBrand from "../../module/home/HomeBrand";
 import HomeHotTrend from "../../module/home/HomeHotTrend";
 import HomePopularCategory from "../../module/home/HomePopularCategory";
 import HomeProductFeature from "../../module/home/HomeProductFeature";
@@ -120,7 +121,7 @@ const Main = () => {
       </div>
       <HomeProductRecomment></HomeProductRecomment>
       <div className="container"></div>
-      <Band></Band>
+      <HomeBrand></HomeBrand>
       <Footer></Footer>
     </>
   );

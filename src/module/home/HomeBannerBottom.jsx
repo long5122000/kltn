@@ -18,7 +18,12 @@ const HomeBannerBottom = () => {
   useEffect(() => {
     async function getData() {
       const colRef = collection(db, "banner");
-      const q = query(colRef, where("status", "==", 1), where("type", "==", 3));
+      const q = query(
+        colRef,
+        where("status", "==", 1),
+        where("type", "==", 3),
+        limit(3)
+      );
       const querySnapshot = await getDocs(q);
       let result = [];
       querySnapshot.forEach((doc) => {

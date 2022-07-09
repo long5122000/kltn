@@ -52,17 +52,64 @@ const CartPage = () => {
   //   }
   //   getData();
   // }, []);
+  const t = [...cart];
+  console.log("t", cart);
+  // const d = [
+  //   { name: "long", age: 6, sex: 3 },
+  //   { name: "hai", age: 3, sex: 4 },
+  // ];
+  // let f = [];
+  // d.forEach((item) => {
+  //   if (item.sex > item.age) {
+  //     item.age = item.sex;
+  //     f.push({ age: item.age, name: item.name });
+  //   }
+  //   console.log(item.age);
+  // });
+  // console.log("f", f);
+  let cloneCart = [];
+  t.forEach((item) => {
+    if (item.totalquantyti > item.quality) {
+      cloneCart.push({
+        id: item.id,
+        images: item.images,
+        price: item.price,
+        pricesale: item.pricesale,
+        title: item.title,
+        quality: item.quality,
+        totalquantyti: item.quality,
+      });
+    } else {
+      cloneCart.push({
+        id: item.id,
+        images: item.images,
+        price: item.price,
+        pricesale: item.pricesale,
+        title: item.title,
+        quality: item.quality,
+        totalquantyti: item.totalquantyti,
+      });
+    }
+  });
+  console.log("f", cloneCart);
 
   const data = cart.map((item) => {
-    return item.pricesale * item.quality;
+    let result = 0;
+    if (item.totalquantyti > item.quality) {
+      result = item.pricesale * item.quality;
+    } else {
+      result = item.pricesale * item.totalquantyti;
+    }
+    return result;
   });
+
   console.log(data);
 
   let sum = 0;
   data.map((item) => {
     sum += item;
   });
-  console.log(sum);
+
   return (
     <div>
       <div className="container mb-5">
@@ -107,32 +154,57 @@ const CartPage = () => {
                         <div className="flex">
                           <div className="border border-gray-300">
                             <div className="bg-white w-[100px] flex items-center text-center  rounded-md py-2 pl-9 pr-3 h-full sm:text-sm">
-                              {item.quality}
+                              {item.totalquantyti}
                             </div>
                           </div>
                           <div className="flex flex-col">
                             <div className="border border-gray-300">
-                              <button
-                                className=" text-[#666]"
-                                onClick={() =>
-                                  dispatch(incrementQuantity(item.id))
-                                }
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  class="h-6 w-6"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                  stroke-width="2"
+                              {item.totalquantyti >= item.quality ? (
+                                <button
+                                  disabled
+                                  className=" text-[#666]"
+                                  onClick={() =>
+                                    dispatch(incrementQuantity(item.id))
+                                  }
                                 >
-                                  <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M5 15l7-7 7 7"
-                                  />
-                                </svg>
-                              </button>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                  >
+                                    <path
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M5 15l7-7 7 7"
+                                    />
+                                  </svg>
+                                </button>
+                              ) : (
+                                <button
+                                  className=" text-[#666]"
+                                  onClick={() =>
+                                    dispatch(incrementQuantity(item.id))
+                                  }
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                  >
+                                    <path
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M5 15l7-7 7 7"
+                                    />
+                                  </svg>
+                                </button>
+                              )}
                             </div>
                             <div className="border border-gray-300">
                               <button
@@ -163,7 +235,9 @@ const CartPage = () => {
                       <td className="border border-[#dee2e6]">
                         <div className="flex justify-between">
                           <div className="font-bold flex text-center items-center ">
-                            {item?.pricesale * item?.quality}
+                            {item.totalquantyti > item.quality
+                              ? item.quality * item?.pricesale
+                              : item.totalquantyti * item?.pricesale}
                           </div>
                           <div className=" flex flex-col gap-y-2">
                             {/* <span>

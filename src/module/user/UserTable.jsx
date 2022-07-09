@@ -9,7 +9,9 @@ import { db } from "../../firebase-app/firebase-config";
 import { userRole, userStatus } from "../../utils/constants";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import { useAuth } from "../../contexts/auth-context";
 const UserTable = () => {
+  const { userInfo } = useAuth();
   const [userList, setUserList] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
@@ -54,6 +56,10 @@ const UserTable = () => {
     }
   };
   const handleDeledeUser = async (user) => {
+    if (userInfo?.role !== userRole.ADMIN) {
+      Swal.fire("Failed", "You have no right to do this action", "warning");
+      return;
+    }
     const colRef = doc(db, "users", user.id);
     Swal.fire({
       title: "Are you sure?",
@@ -98,9 +104,14 @@ const UserTable = () => {
       <td>{renderLabelRole(user?.role)}</td>
       <td>
         <div className="flex items-center gap-x-3 text-gray-500">
-          <ActionEdit
-            onClick={() => navigate(`/manage/update-user?id=${user.id}`)}
-          ></ActionEdit>
+          {userInfo?.role === userRole.ADMIN ? (
+            <ActionEdit
+              onClick={() => navigate(`/manage/update-user?id=${user.id}`)}
+            ></ActionEdit>
+          ) : (
+            <ActionEdit></ActionEdit>
+          )}
+
           <ActionDelete onClick={() => handleDeledeUser(user)}></ActionDelete>
         </div>
       </td>

@@ -32,6 +32,8 @@ const BrandUpdate = () => {
     control,
     reset,
     watch,
+    setValue,
+    getValues,
     handleSubmit,
     formState: { isSubmitting },
   } = useForm({
@@ -41,6 +43,13 @@ const BrandUpdate = () => {
   const [params] = useSearchParams();
   const brandId = params.get("id");
   const navigate = useNavigate();
+  const imageUrl = getValues("image");
+  const imageName = getValues("image_name");
+  const { image, setImage, progress, handleSelectImage, handleDeleteImage } =
+    useFirebaseImage(setValue, getValues, imageName);
+  useEffect(() => {
+    setImage(imageUrl);
+  }, [imageUrl, setImage]);
   useEffect(() => {
     async function fetchData() {
       const colRef = doc(db, "brands", brandId);
@@ -109,6 +118,16 @@ const BrandUpdate = () => {
                 Unapproved
               </Radio>
             </div>
+          </Field>
+          <Field>
+            <Label>Image</Label>
+            <ImageUpload
+              onChange={handleSelectImage}
+              progress={progress}
+              image={image}
+              handleDeleteImage={handleDeleteImage}
+              className="h-[300px]"
+            ></ImageUpload>
           </Field>
         </div>
         <Button

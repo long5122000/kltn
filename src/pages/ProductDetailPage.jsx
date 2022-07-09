@@ -32,6 +32,7 @@ const ProductDetailPage = () => {
     setToggleState(index);
   };
   const cart = useSelector((state) => state.count.count);
+  console.log(cart);
   const dispatch = useDispatch();
 
   const productid = useParams().id;
@@ -142,58 +143,82 @@ const ProductDetailPage = () => {
                   />
                 </div>
                 <div className="">
-                  <div
-                    className="border border-gray-300 text-[#666] disabled:opacity-75"
-                    onClick={() => dispatch(increment())}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M5 15l7-7 7 7"
-                      />
-                    </svg>
+                  <div className="border border-gray-300 text-[#666]">
+                    <button className=" " onClick={() => dispatch(increment())}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M5 15l7-7 7 7"
+                        />
+                      </svg>
+                    </button>
                   </div>
-                  <div
-                    className="border border-gray-300 text-[#666]"
-                    onClick={() => dispatch(decrement())}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
+                  <div className="border border-gray-300 text-[#666]">
+                    {cart <= 1 ? (
+                      <button disabled onClick={() => dispatch(decrement())}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </button>
+                    ) : (
+                      <button
+                        className=""
+                        onClick={() => dispatch(decrement())}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
               {product?.quality < cart ? (
-                <button
-                  disabled
-                  className="py-2 px-20  text-white bg-[#16bcdc]"
-                  onClick={() => {
-                    dispatch(addToCart(cloneProduct)),
-                      dispatch(resetCount(cloneProduct)),
-                      toast.success("Add to cart successfully");
-                  }}
-                >
-                  Add to cart
-                </button>
+                <>
+                  <button
+                    disabled
+                    className="py-2 px-20  text-white bg-[#bed7dc]"
+                    onClick={() => {
+                      dispatch(addToCart(cloneProduct)),
+                        dispatch(resetCount(cloneProduct)),
+                        toast.success("Add to cart successfully");
+                    }}
+                  >
+                    Add to cart
+                  </button>
+
+                  <p className="text-[#a32036] w-[110px]">So luong khong du</p>
+                </>
               ) : (
                 <button
                   className="py-2 px-20  text-white bg-[#16bcdc]"

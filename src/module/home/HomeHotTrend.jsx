@@ -93,11 +93,11 @@ const HomeHotTrend = () => {
 };
 
 const ProductItem = ({
-  infor: { id, title, pricesale, price, images, quality },
+  infor: { id, title, pricesale, price, images, quality, totalquantyti = 0 },
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const item = { id, title, pricesale, price, images, quality };
+  const item = { id, title, pricesale, price, images, quality, totalquantyti };
   return (
     <div className="p-5  product-item overflow-hidden  hover:opacity-90 bg-white text-white rounded-lg flex flex-col h-full relative ">
       {pricesale == 0 ? (
@@ -228,6 +228,7 @@ const ProductItem = ({
             <p className="text-xl text-gray-400 font-semibold">${price}</p>
           )}
         </div>
+
         <a
           className="px-2 py-2 bg-[#16bcdc] rounded-lg text-center"
           onClick={() => {

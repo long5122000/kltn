@@ -152,9 +152,6 @@ const ProductManage = () => {
                 <td className="text-center">
                   {" "}
                   <div className="flex justify-center items-center gap-x-3 text-gray-500">
-                    <ActionView
-                      onClick={() => navigate(`/product/${product.slug}`)}
-                    ></ActionView>
                     <ActionEdit
                       onClick={() =>
                         navigate(`/manage/update-product?id=${product.id}`)

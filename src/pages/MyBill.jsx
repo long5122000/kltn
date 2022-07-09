@@ -10,7 +10,7 @@ import { db } from "../firebase-app/firebase-config";
 const MyBill = () => {
   const { userInfo } = useAuth();
   const navigate = useNavigate();
-  console.log(userInfo.uid);
+
   const [bills, setBills] = useState([]);
   useEffect(() => {
     async function getData() {

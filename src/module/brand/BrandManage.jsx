@@ -151,9 +151,6 @@ const BrandManage = () => {
                 </td>
                 <td>
                   <div className="flex items-center gap-x-3 text-gray-500">
-                    <ActionView
-                      onClick={() => navigate(`/brand/${brand.slug}`)}
-                    ></ActionView>
                     <ActionEdit
                       onClick={() =>
                         navigate(`/manage/update-brand?id=${brand.id}`)
