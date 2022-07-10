@@ -100,7 +100,11 @@ const ProductItem = ({
   const item = { id, title, pricesale, price, images, quality, totalquantyti };
   return (
     <div className="p-5  product-item overflow-hidden  hover:opacity-90 bg-white text-white rounded-lg flex flex-col h-full relative ">
-      {pricesale == 0 ? (
+      {quality <= 0 ? (
+        <span className="absolute px-2 py-1 rounded-sm bg-[#753b3f] text-xs">
+          sold out
+        </span>
+      ) : pricesale == 0 ? (
         <span className="absolute px-2 rounded-sm bg-[#950f1a] text-xs">
           hot
         </span>
@@ -228,16 +232,28 @@ const ProductItem = ({
             <p className="text-xl text-gray-400 font-semibold">${price}</p>
           )}
         </div>
-
-        <a
-          className="px-2 py-2 bg-[#16bcdc] rounded-lg text-center"
-          onClick={() => {
-            dispatch(addToCart(item)),
-              toast.success("Add to cart successfully");
-          }}
-        >
-          Add to cart
-        </a>
+        {quality > 0 ? (
+          <button
+            className="px-2 py-2 bg-[#16bcdc] rounded-lg text-center"
+            onClick={() => {
+              dispatch(addToCart(item)),
+                toast.success("Add to cart successfully");
+            }}
+          >
+            Add to cart
+          </button>
+        ) : (
+          <button
+            disabled
+            className="px-2 py-2 bg-[#c2ecf5] rounded-lg text-center"
+            onClick={() => {
+              dispatch(addToCart(item)),
+                toast.success("Add to cart successfully");
+            }}
+          >
+            Add to cart
+          </button>
+        )}
       </div>
     </div>
   );

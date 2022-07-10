@@ -46,34 +46,14 @@ const CheckoutPage = () => {
   const cart = useSelector((state) => state.count.cart);
   console.log(cart);
   const dispatch = useDispatch();
-  // const [cartList, setCartList] = useState([]);
-  // const [count, setCount] = useState(0);
-  // console.log(userInfo.uid);
-  // useEffect(() => {
-  //   async function getData() {
-  //     const colRef = collection(db, "AuthCart");
-  //     const q = query(colRef, where("auth", "==", userInfo.uid));
-  //     const querySnapshot = await getDocs(q);
-  //     let result = [];
-  //     querySnapshot.forEach((doc) => {
-  //       // doc.data() is never undefined for query doc snapshots
-  //       result.push({
-  //         id: doc.id,
-  //         ...doc.data(),
-  //       });
-  //     });
-  //     console.log(result);
-  //     setCartList(result);
-  //   }
-  //   getData();
-  // }, []);
 
-  // console.log(cartList);
   const data = cart.map((item) => {
     return item.pricesale * item.totalquantyti;
   });
   console.log(data);
-
+  useEffect(() => {
+    document.title = "Check out";
+  }, []);
   let sum = 0;
   data.map((item) => {
     sum += item;

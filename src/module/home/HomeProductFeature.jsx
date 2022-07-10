@@ -70,7 +70,11 @@ const ProductItem = ({
   const item = { id, title, pricesale, price, images, quality };
   return (
     <div className="p-5  product-item overflow-hidden  hover:opacity-90 bg-white text-white rounded-lg flex flex-col h-full relative ">
-      {pricesale == 0 ? (
+      {quality <= 0 ? (
+        <span className="absolute px-2 py-1 rounded-sm bg-[#753b3f] text-xs">
+          sold out
+        </span>
+      ) : pricesale == 0 ? (
         <span className="absolute px-2 rounded-sm bg-[#950f1a] text-xs">
           hot
         </span>
@@ -219,13 +223,17 @@ const ProductItemLarge = ({
   const item = { id, title, pricesale, price, images, quality, desc };
   return (
     <div className="flex bg-white p-5 gap-1 h-full rounded-3xl relative">
-      {item.pricesale == 0 ? (
-        <span className="absolute px-2 text-white rounded-sm bg-[#950f1a] text-xs">
+      {quality <= 0 ? (
+        <span className="absolute px-2 py-1 rounded-sm bg-[#753b3f] text-xs">
+          sold out
+        </span>
+      ) : pricesale == 0 ? (
+        <span className="absolute px-2 rounded-sm bg-[#950f1a] text-xs">
           hot
         </span>
       ) : (
-        <span className="absolute px-3 py-1 top-10 text-white rounded-sm bg-[#5aab19] text-xs">
-          {Math.floor(100 - (item.pricesale / item.price) * 100)}%
+        <span className="absolute px-2 text-white rounded-sm bg-[#5aab19] text-xs">
+          {Math.floor(100 - (pricesale / price) * 100)}%
         </span>
       )}
       <div className="flex items-center">
@@ -304,15 +312,28 @@ const ProductItemLarge = ({
         <p className="mb-5 text-base  ">
           {item?.desc && item?.desc.slice(0, 200) + "..."}
         </p>
-        <a
-          className="w-full py-3 text-white bg-[#16bcdc] block rounded-lg text-center"
-          onClick={() => {
-            dispatch(addToCart(item)),
-              toast.success("Add to cart successfully");
-          }}
-        >
-          Add to cart
-        </a>
+        {quality > 0 ? (
+          <button
+            className="w-full py-3 text-white bg-[#16bcdc] block rounded-lg text-center"
+            onClick={() => {
+              dispatch(addToCart(item)),
+                toast.success("Add to cart successfully");
+            }}
+          >
+            Add to cart
+          </button>
+        ) : (
+          <button
+            disabled
+            className="w-full py-3 text-white bg-[#16bcdc] block rounded-lg text-center"
+            onClick={() => {
+              dispatch(addToCart(item)),
+                toast.success("Add to cart successfully");
+            }}
+          >
+            Add to cart
+          </button>
+        )}
       </div>
     </div>
   );

@@ -34,39 +34,10 @@ const CartPage = () => {
   const [count, setCount] = useState(0);
   console.log("c", count);
   console.log(userInfo.uid);
-  // useEffect(() => {
-  //   async function getData() {
-  //     const colRef = collection(db, "AuthCart");
-  //     const q = query(colRef, where("auth", "==", userInfo.uid));
-  //     const querySnapshot = await getDocs(q);
-  //     let result = [];
-  //     querySnapshot.forEach((doc) => {
-  //       // doc.data() is never undefined for query doc snapshots
-  //       result.push({
-  //         id: doc.id,
-  //         ...doc.data(),
-  //       });
-  //     });
-  //     console.log(result);
-  //     setCartList(result);
-  //   }
-  //   getData();
-  // }, []);
+
   const t = [...cart];
   console.log("t", cart);
-  // const d = [
-  //   { name: "long", age: 6, sex: 3 },
-  //   { name: "hai", age: 3, sex: 4 },
-  // ];
-  // let f = [];
-  // d.forEach((item) => {
-  //   if (item.sex > item.age) {
-  //     item.age = item.sex;
-  //     f.push({ age: item.age, name: item.name });
-  //   }
-  //   console.log(item.age);
-  // });
-  // console.log("f", f);
+
   let cloneCart = [];
   t.forEach((item) => {
     if (item.totalquantyti > item.quality) {

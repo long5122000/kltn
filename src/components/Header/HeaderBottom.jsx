@@ -108,7 +108,7 @@ const HeaderBottom = () => {
             ))}
         </div>
         <a href="#" className="text-gray-200 hover:text-white transition">
-          Spend $120 more and get free shipping!
+          Tk: admin@gmail.com - Pw: 123456789
         </a>
       </div>
     </div>
