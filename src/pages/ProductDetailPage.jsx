@@ -15,6 +15,7 @@ import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase-app/firebase-config";
 import { useAuth } from "../contexts/auth-context";
 import { useDispatch, useSelector } from "react-redux";
+import parse from "html-react-parser";
 import {
   increment,
   decrement,
@@ -304,7 +305,7 @@ const ProductDetailPage = () => {
           </div>
           <div className=" px-5 border-t-[1px] border-[#ebebeb]">
             {toggleState === 1 && (
-              <div className="block">{product.content}</div>
+              <div className="block">{parse(product.content || "")}</div>
             )}
             {toggleState === 2 && (
               <div className="block">

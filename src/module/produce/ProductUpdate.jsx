@@ -29,6 +29,7 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
+import axios from "axios";
 const ProductUpdate = () => {
   const [params] = useSearchParams();
   const productId = params.get("id");
@@ -247,15 +248,6 @@ const ProductUpdate = () => {
                 <br />
               </div>
               <div className="flex gap-x-2 flex-1">
-                {/* {images.map((url, i) => (
-                  <img
-                    className="border border-gray-200"
-                    key={i}
-                    style={{ width: "200px" }}
-                    src={url || "http://via.placeholder.com/300"}
-                    alt="firebase-image"
-                  />
-                ))} */}
                 {urls &&
                   urls.map((item, i) => (
                     <Fragment key={i}>
