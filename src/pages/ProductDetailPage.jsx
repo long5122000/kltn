@@ -107,7 +107,7 @@ const ProductDetailPage = () => {
                 product?.images.length > 0 &&
                 product?.images.map((item, i) => (
                   <SwiperSlide>
-                    <img src={item} key={i} />
+                    <img src={item} key={i} className="h-32" />
                   </SwiperSlide>
                 ))}
             </Swiper>
