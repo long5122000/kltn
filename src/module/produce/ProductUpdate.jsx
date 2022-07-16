@@ -153,11 +153,12 @@ const ProductUpdate = () => {
       images: "",
     });
     setUrls("");
+    setImages([]);
   }
-  let newImage = [];
+
   const handleChange = (e) => {
     for (let i = 0; i < e.target.files.length; i++) {
-      newImage = e.target.files[i];
+      const newImage = e.target.files[i];
       newImage["id"] = Math.random();
       setImages((prevState) => [...prevState, newImage]);
     }
