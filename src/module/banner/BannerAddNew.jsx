@@ -165,7 +165,7 @@ const BannerAddNew = () => {
           disabled={isSubmitting}
           isLoading={isSubmitting}
         >
-          Add new category
+          Add new banner
         </Button>
       </form>
     </div>

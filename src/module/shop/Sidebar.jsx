@@ -27,7 +27,7 @@ const Sidebar = () => {
       <div className="divide-y divide-gray-200 space-y-5">
         <div>
           <h3 className="text-xl text-gray-800 mb-3 mt-3 uppercase font-medium">
-            categories
+            Danh mục
           </h3>
           {categories.length > 0 &&
             categories.map((item) => (
@@ -49,7 +49,7 @@ const Sidebar = () => {
         </div>
         <div className="pt-4">
           <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">
-            Prices
+            Giá
           </h3>
           <Link
             to={`/shop/price100000`}

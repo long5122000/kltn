@@ -79,7 +79,7 @@ const CategoryUpdate = () => {
     }
     fetchData();
   };
-  console.log("pr", product);
+
   if (product.status === 1) {
     product.cart.map(async (item) => {
       const docRef = doc(db, "products", item.id);
@@ -87,7 +87,6 @@ const CategoryUpdate = () => {
         quality: Number(item.quality - item.totalquantyti),
       });
     });
-    console.log("oke");
   }
 
   if (!billId) return null;

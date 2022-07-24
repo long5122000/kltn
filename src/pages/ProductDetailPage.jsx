@@ -11,7 +11,15 @@ import Footer from "../components/layout/Footer";
 import ProductList from "../components/product/ProductList";
 import Heading from "../components/layout/Heading";
 import { useParams, useSearchParams } from "react-router-dom";
-import { addDoc, collection, doc, getDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "../firebase-app/firebase-config";
 import { useAuth } from "../contexts/auth-context";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +31,7 @@ import {
   resetCount,
 } from "../redux/addMultiCartSlice";
 import { toast } from "react-toastify";
+import ProductRelated from "../module/produce/ProductRelated";
 
 const ProductDetailPage = () => {
   const { userInfo } = useAuth();
@@ -39,6 +48,7 @@ const ProductDetailPage = () => {
   const productid = useParams().id;
   console.log(productid);
   const [product, setProduct] = useState([]);
+  const [productCate, setProductCate] = useState([]);
   useEffect(() => {
     async function fetchData() {
       const docRef = doc(db, "products", productid);
@@ -49,8 +59,10 @@ const ProductDetailPage = () => {
       }
     }
     fetchData();
-  }, []);
-
+  }, [productid]);
+  useEffect(() => {
+    document.body.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [productid]);
   const cloneProduct = { ...product, id: productid };
   const {
     id: prodcutId,
@@ -118,18 +130,33 @@ const ProductDetailPage = () => {
               {product.title}
             </h2>
             <div className="flex items-baseline mt-3 mb-4 space-x-2 ">
-              <p className="text-2xl text-[#cc1414] font-semibold">
-                ${product.pricesale}
-              </p>
-              <p className="text-base text-gray-400 line-through">
-                ${product.price}
-              </p>
+              {product.pricesale > 0 ? (
+                <>
+                  {" "}
+                  <p className="text-2xl text-[#cc1414] font-semibold">
+                    ${product.pricesale}
+                  </p>
+                  <p className="text-base text-gray-400 line-through">
+                    ${product.price}
+                  </p>
+                </>
+              ) : (
+                <p className="text-2xl text-[#cc1414] font-semibold">
+                  ${product.price}
+                </p>
+              )}
             </div>
             <hr />
             <div className="mt-5 mb-3">
-              <p className="mb-1 text-sm font-bold text-[#222]">
-                Availability: <span className="text-primary">Instock </span>
-              </p>
+              {product.quality > 0 ? (
+                <p className="mb-1 text-sm font-bold text-[#222]">
+                  Trạng thái: <span className="text-[#16bcdc]">Còn hàng </span>
+                </p>
+              ) : (
+                <p className="mb-1 text-sm font-bold text-[#222]">
+                  Trạng thái: <span className="text-primary">Hết hàng </span>
+                </p>
+              )}
             </div>
             <p className="text-sm text-[#666] mb-6 font-medium">
               {product.desc}
@@ -229,7 +256,7 @@ const ProductDetailPage = () => {
                       toast.success("Add to cart successfully");
                   }}
                 >
-                  Add to cart
+                  Thêm vào giỏ
                 </button>
               )}
             </div>
@@ -251,23 +278,23 @@ const ProductDetailPage = () => {
                 </svg>
                 Add To Wish List
               </div> */}
-              Quantity: {product?.quality}
+              Số lượng: {product?.quality}
             </div>
             <hr />
             <div className="mt-4">
               <p className="mb-1 text-sm font-bold">
-                Category:{" "}
+                Danh mục:{" "}
                 <span className="text-[#666] ">{product?.category?.name}</span>
               </p>
               <p className="mb-1 text-sm font-bold">
-                Brand name:{" "}
+                Hãng:{" "}
                 <span className="text-[#666]">{product?.brand?.name}</span>
               </p>
             </div>
           </div>
         </div>
       </div>
-      <div className="container  ">
+      <div className="container mb-10">
         <div className="  bg-white pb-5">
           <div className="mx-auto  flex justify-center">
             <div
@@ -278,7 +305,7 @@ const ProductDetailPage = () => {
               }
               onClick={() => toggleTab(1)}
             >
-              <a className="text-black  text-2xl font-medium">Details</a>
+              <a className="text-black  text-2xl font-medium">Chi tiết</a>
             </div>
             <div
               className={
@@ -288,9 +315,7 @@ const ProductDetailPage = () => {
               }
               onClick={() => toggleTab(2)}
             >
-              <a className="text-black text-2xl font-medium">
-                More Information
-              </a>
+              <a className="text-black text-2xl font-medium">Thông tin thêm</a>
             </div>
             <div
               className={
@@ -299,9 +324,7 @@ const ProductDetailPage = () => {
                   : "px-6 py-5 cursor-pointer"
               }
               onClick={() => toggleTab(3)}
-            >
-              <a className="text-black  text-2xl font-medium">Reviews</a>
-            </div>
+            ></div>
           </div>
           <div className=" px-5 border-t-[1px] border-[#ebebeb]">
             {toggleState === 1 && (
@@ -309,52 +332,13 @@ const ProductDetailPage = () => {
             )}
             {toggleState === 2 && (
               <div className="block">
-                <h3>Tab2</h3> Lorem ipsum dolor sit amet consectetur adipisicing
-                elit. Adipisci cumque nemo quibusdam delectus libero reiciendis
-                porro accusamus quisquam suscipit provident, nisi dolor aut
-                minima iusto. Dolor deleniti expedita praesentium porro!
-                <h3>Tab2</h3> Lorem ipsum dolor sit amet consectetur adipisicing
-                elit. Adipisci cumque nemo quibusdam delectus libero reiciendis
-                porro accusamus quisquam suscipit provident, nisi dolor aut
-                minima iusto. Dolor deleniti expedita praesentium porro!
-              </div>
-            )}
-            {toggleState === 3 && (
-              <div className="block">
-                <h3>Tab3</h3> Lorem ipsum dolor sit amet consectetur adipisicing
-                elit. Adipisci
+                <h3 className="text-center p-10">Không có dữ liệu</h3>{" "}
               </div>
             )}
           </div>
         </div>
       </div>
-      <div className="mb-10">
-        <div className="flex  justify-between container mt-10">
-          <Heading></Heading>
 
-          <a
-            href="#"
-            className="text-md text-[#434242] mt-1 flex hover:text-[#16bcdc]"
-          >
-            See All
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-4 w-4 mt-1 ml-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </a>
-        </div>
-        {/* <ProductList></ProductList> */}
-      </div>
       <Footer></Footer>
     </>
   );

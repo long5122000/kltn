@@ -19,13 +19,13 @@ const Main = () => {
       {/* <Header></Header> */}
       <HomeBanner></HomeBanner>
       <div className="flex justify-between container mt-10">
-        <Heading>Hot Trending Products</Heading>
+        <Heading>Sản phẩm nổi bật</Heading>
 
         <a
           href="#"
           className="text-md text-[#434242] mt-1 flex hover:text-[#16bcdc]"
         >
-          See All
+          Xem tiếp
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-4 w-4 mt-1 ml-2"
@@ -45,13 +45,12 @@ const Main = () => {
       <HomeHotTrend></HomeHotTrend>
 
       <div className="flex justify-between container mt-10">
-        <Heading>Popular Categories</Heading>
-
+        <Heading>Danh mục thịnh hành</Heading>
         <a
           href="#"
           className="text-md text-[#434242] mt-1 flex hover:text-[#16bcdc]"
         >
-          See All
+          Xem tiếp
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-4 w-4 mt-1 ml-2"
@@ -70,13 +69,13 @@ const Main = () => {
       </div>
       <HomePopularCategory></HomePopularCategory>
       <div className="flex justify-between container mt-10">
-        <Heading>Top Featured Products</Heading>
+        <Heading>Sản phẩm đặc sắc</Heading>
 
         <a
           href="#"
           className="text-md text-[#434242] mt-1 flex hover:text-[#16bcdc]"
         >
-          See All
+          Xem tiếp
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-4 w-4 mt-1 ml-2"
@@ -96,13 +95,13 @@ const Main = () => {
       <HomeProductFeature></HomeProductFeature>
       <HomeBannerBottom></HomeBannerBottom>
       <div className="flex justify-between container mt-10">
-        <Heading>Recommended For You</Heading>
+        <Heading>Sản phẩm đề xuất</Heading>
 
         <a
           href="#"
           className="text-md text-[#434242] mt-1 flex hover:text-[#16bcdc]"
         >
-          See All
+          Xem tiếp
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-4 w-4 mt-1 ml-2"

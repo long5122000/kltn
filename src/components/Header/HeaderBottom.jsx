@@ -1,6 +1,6 @@
 import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { db } from "../../firebase-app/firebase-config";
 
 // const categories = [
@@ -28,20 +28,20 @@ import { db } from "../../firebase-app/firebase-config";
 
 const menuList = [
   {
-    url: "#",
-    title: "Home",
+    url: "/",
+    title: "Trang chủ",
   },
   {
     url: "/shop",
-    title: "Shop",
+    title: "Cửa hàng",
   },
   {
     url: "/about",
-    title: "About Us",
+    title: "Giới thiệu",
   },
   {
     url: "contact",
-    title: "Contact Us",
+    title: "Liên hệ",
   },
 ];
 
@@ -53,7 +53,6 @@ const HeaderBottom = () => {
       const querySnapshot = await getDocs(colRef);
       let result = [];
       querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
         result.push({
           id: doc.id,
           ...doc.data(),
@@ -82,7 +81,7 @@ const HeaderBottom = () => {
             />
           </svg>
         </span>
-        <span className="capitalize ml-2 text-white">All categories</span>
+        <span className="capitalize ml-2 text-white">Danh mục</span>
         <div className="absolute w-full left-0 top-full bg-white shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 transition duration-300 invisible group-hover:visible z-10">
           {categories.length > 0 &&
             categories.map((item) => (
@@ -99,12 +98,16 @@ const HeaderBottom = () => {
         <div className="flex items-center space-x-6 capitalize">
           {menuList.length > 0 &&
             menuList.map((item) => (
-              <Link
+              <NavLink
                 to={item.url}
-                className=" first:text-[#16bcdc] text-white uppercase font-normal transition"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-[#16bcdc] uppercase font-normal transition"
+                    : "text-white uppercase font-normal transition"
+                }
               >
                 {item.title}
-              </Link>
+              </NavLink>
             ))}
         </div>
         <a href="#" className="text-gray-200 hover:text-white transition">

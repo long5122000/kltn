@@ -1,12 +1,29 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-const ProductItem = () => {
+const ProductItem = ({
+  infor: { id, title, pricesale, price, images, quality, totalquantyti = 0 },
+}) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const item = { id, title, pricesale, price, images, quality, totalquantyti };
   return (
     <div className="p-5  product-item overflow-hidden  hover:opacity-90 bg-white text-white rounded-lg flex flex-col h-full relative ">
-      <span className="absolute px-2 rounded-sm bg-[#5aab19] text-xs">
-        -25%
-      </span>
-      <div className="absolute -right-full top-5 item-option transition-all flex gap-2 flex-col">
+      {quality <= 0 ? (
+        <span className="absolute px-2 py-1 rounded-sm bg-[#753b3f] text-xs">
+          sold out
+        </span>
+      ) : pricesale == 0 ? (
+        <span className="absolute px-2 rounded-sm bg-[#950f1a] text-xs">
+          hot
+        </span>
+      ) : (
+        <span className="absolute px-2 rounded-sm bg-[#5aab19] text-xs">
+          {Math.floor(100 - (pricesale / price) * 100)}%
+        </span>
+      )}
+      {/* <div className="absolute -right-full top-5 item-option transition-all flex gap-2 flex-col">
         <a className="text-[#434242] bg-slate-200 rounded-full p-2 hover:bg-[#16bcdc] hover:text-white">
           <span>
             <svg
@@ -46,15 +63,17 @@ const ProductItem = () => {
             />
           </svg>
         </a>
-      </div>
+      </div> */}
+      /*{" "}
       <img
-        src="../images/x13_1.jpg.pagespeed.ic.yb4H-R07f6.webp"
+        src={images}
         alt=""
         className="h-[163px] w-[163px] object-cover mb-5 rounded-lg"
+        onClick={() => navigate(`/product/${id}`)}
       />
       <div className="flex flex-col flex-1">
         <h3 className="mb-2 text-[#0068c9] text-base font-bold title-line">
-          Iphone 13
+          {title.length > 20 ? title.slice(0, 20) + "..." : title}
         </h3>
         <div className="flex items-center mb-2">
           <div className="flex  text-xs text-yellow-400">
@@ -109,15 +128,42 @@ const ProductItem = () => {
               </svg>
             </span>
           </div>
-          <div className="text-xs text-gray-500 ml-2">(150)</div>
+          <div className="text-xs text-gray-500 ml-2">({quality})</div>
         </div>
         <div className="flex items-baseline mb-2 space-x-2 ">
-          <p className="text-xl text-[#cc1414] font-semibold">$45.00</p>
-          <p className="text-sm text-gray-400 line-through">$55.00</p>
+          {pricesale > 0 ? (
+            <>
+              <p className="text-xl text-[#cc1414] font-semibold">
+                ${pricesale}
+              </p>
+              <p className="text-sm text-gray-400 line-through">${price}</p>
+            </>
+          ) : (
+            <p className="text-xl text-gray-400 font-semibold">${price}</p>
+          )}
         </div>
-        <a href="#" className="px-2 py-2 bg-[#16bcdc] rounded-lg text-center">
-          Buy now
-        </a>
+        {quality > 0 ? (
+          <button
+            className="px-2 py-2 bg-[#16bcdc] rounded-lg text-center"
+            onClick={() => {
+              dispatch(addToCart(item)),
+                toast.success("Add to cart successfully");
+            }}
+          >
+            Thêm vào giỏ
+          </button>
+        ) : (
+          <button
+            disabled
+            className="px-2 py-2 bg-[#c2ecf5] rounded-lg text-center"
+            onClick={() => {
+              dispatch(addToCart(item)),
+                toast.success("Add to cart successfully");
+            }}
+          >
+            Thêm vào giỏ
+          </button>
+        )}
       </div>
     </div>
   );

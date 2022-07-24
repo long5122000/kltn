@@ -5,40 +5,45 @@ const About = () => {
   return (
     <>
       <div className="container pt-10 ">
-        <h4 className="text-sm text-center text-[#16dcec] font-medium">
-          Hi, friends!
+        <h4 className="text-sm text-center text-[#666] font-medium">
+          Xin chào, những người bạn !
         </h4>
-        <h1 className="text-center   text-3xl font-bold py-6">About Us</h1>
+        <h1 className="text-center   text-3xl font-bold py-6">Về chúng tôi</h1>
       </div>
       <div className="grid grid-cols-2 pt-4 pb-5 gap-x-5 container">
         <div className="col-span-1">
-          <img src="../img1_950X.webp" alt="" className="" />
+          <img src="../banner-about-us-2.jpeg" alt="" className="" />
         </div>
         <div className="col-span-1">
           <h2 className="text-4xl  font-semibold pt-5 py-6">
-            Muhil Expectation
+            Với hơn 25 năm kinh nghiệm
           </h2>
           <p>
-            Our mission is to make each and every one of our clients to look and
-            feel fabulous. Fashion wig styles, medical wig for hair loss, we
-            provide the top brands in the most trendy and stylish looks. Our
-            team really does put an enormous amount of effort into serving your
-            needs. Highest quality beauty and hair products in the industry,
-            while ensuring professional and informed expert assistance for a
-            pampering online shopping experience.
+            Công ty cổ phần Phát triển Công nghệ Dukamarket là một công ty trẻ
+            đã và đang tiếp tục khai thác những tiềm năng của công nghệ
+            Internet, tri thức và nội lực sáng tạo để tạo nên những sản phẩm và
+            dịch vụ phần mềm chất lượng cao phục vụ cho nền kinh tế quốc dân.
+            Với đội ngũ nhân viên trẻ trung, năng động, chuyên nghiệp và sáng
+            tạo, chúng tôi đã tạo ra sản phẩm mới, giá trị mới trong lĩnh vực
+            công nghệ thông tin. Với phương châm “Luôn là đối tác tin cậy của
+            Khách hàng” Kim Giang không ngừng hoàn thiện và đổi mới để tạo ra
+            những sản phẩm dịch vụ ngày càng một tốt hơn. Kim Giang đang không
+            ngừng cải tiến, sáng tạo, tìm ra giải pháp công nghệ ưu việt đáp ứng
+            những yêu cầu bài toán khó, tạo ra giá trị mới trong một lĩnh vực
+            đầy nhân văn cho xã hội.
           </p>
         </div>
       </div>
       <div className="container pt-10 ">
-        <h4 className="text-sm text-center text-[#16dcec] font-medium">
-          THE TEAM
-        </h4>
-        <h1 className="text-center text-3xl font-bold  py-6">Meet our team</h1>
+        <h4 className="text-sm text-center text-[#666] font-medium">Đội ngũ</h4>
+        <h1 className="text-center text-3xl font-bold  py-6">
+          Đội ngũ của chúng tôi
+        </h1>
         <p className="text-center pb-10 text-sm font-semibold text-[#666]">
-          The perfect way to enjoy brewing tea on low hanging fruit to identify.
-          Duis autem vel eum iriure dolor in hendrerit <br />
-          in vulputate velit esse molestie consequat, vel illum dolore eu
-          feugiat nulla facilisis.
+          Đội ngũ của chúng tôi với những nhân viên trẻ và năng động sẽ mang đến
+          cho các bạn những sản phẩm tốt nhất <br />
+          Với kinh nghiệm của bản thân cũng như công ty chắc chắn sẽ làm bạn hài
+          lòng
           <br />
         </p>
       </div>
@@ -61,8 +66,7 @@ const About = () => {
           </div>
           <div className="py-3 ">
             <p className="text-center">
-              Sed ut perspiciatis unde omnis iste natus error sitaccusantium
-              doloremque laudan totam rem aperiam.
+              5 năm kinh nghiệm trong lĩnh vực phát triển phần mềm
             </p>
           </div>
         </div>
@@ -84,8 +88,7 @@ const About = () => {
           </div>
           <div className="py-3 ">
             <p className="text-center">
-              Sed ut perspiciatis unde omnis iste natus error sitaccusantium
-              doloremque laudan totam rem aperiam.
+              5 năm kinh nghiệm trong lĩnh vực phát triển phần mềm
             </p>
           </div>
         </div>
@@ -107,8 +110,7 @@ const About = () => {
           </div>
           <div className="py-3 ">
             <p className="text-center">
-              Sed ut perspiciatis unde omnis iste natus error sitaccusantium
-              doloremque laudan totam rem aperiam.
+              7 năm kinh nghiệm trong lĩnh vực phát triển phần mềm
             </p>
           </div>
         </div>

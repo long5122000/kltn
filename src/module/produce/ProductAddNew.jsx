@@ -169,8 +169,9 @@ const ProductAddNew = () => {
       ...cloneValues,
       content,
       createdAt: serverTimestamp(),
+      categoryId: cloneValues.category.id,
     });
-    toast.success("Add post successfuly");
+    toast.success("Add product successfuly");
   };
   const modules = useMemo(
     () => ({
@@ -270,7 +271,7 @@ const ProductAddNew = () => {
         </div>
         <div className="grid mb-10">
           <Field>
-            <Label>sds</Label>
+            <Label>Content</Label>
             <div className="w-full entry-content">
               <ReactQuill
                 modules={modules}
@@ -409,7 +410,7 @@ const ProductAddNew = () => {
           // isLoading={loading}
           // disabled={loading}
         >
-          Add new post
+          Add new product
         </Button>
       </form>
     </div>

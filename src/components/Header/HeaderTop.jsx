@@ -4,11 +4,11 @@ import { useAuth } from "../../contexts/auth-context";
 
 const menuLinks = [
   {
-    name: "About Us",
+    name: "Giới thiệu",
     url: "/about",
   },
   {
-    name: "Contact Us",
+    name: "Liên hệ",
     url: "/contact",
   },
 ];
@@ -20,7 +20,7 @@ const HeaderTop = ({ contact }) => {
     <div className="  border-b-[1px] border-rgba-border ">
       <div className="container flex justify-between py-2 items-center">
         <div className="text-white text-sm">
-          Need Helps: <span>{contact}</span>
+          Liên hệ: <span>{contact}</span>
         </div>
 
         <ul className="flex  space-x-4 list-none">
@@ -30,7 +30,7 @@ const HeaderTop = ({ contact }) => {
                 to={"/my-bill"}
                 className="px-3 mr-4  text-white  inline-flex leading-none text-sm hover:text-[#16bcdc] "
               >
-                MyBill
+                Đơn hàng
               </Link>
             </li>
           ) : (
@@ -39,7 +39,7 @@ const HeaderTop = ({ contact }) => {
                 to={"/sign-in"}
                 className="px-3 mr-4  text-white  inline-flex leading-none text-sm hover:text-[#16bcdc] "
               >
-                MyBill
+                Đơn hàng
               </Link>
             </li>
           )}

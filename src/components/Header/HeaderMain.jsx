@@ -112,7 +112,7 @@ const HeaderMain = () => {
                 />
               </svg>
             </div>
-            <div className="text-sm items-center flex ml-3">Cart</div>
+            <div className="text-sm items-center flex ml-3">Giỏ hàng</div>
             <span className="absolute left-0 translate-x-full -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs border border-black">
               {total}
             </span>
@@ -169,7 +169,7 @@ const HeaderMain = () => {
                   className="flex items-center px-1 py-3 hover:bg-gray-100 transition"
                 >
                   <p className="ml-3 text-gray-600 text-sm font-medium">
-                    Admin Dashboard
+                    Quản trị
                   </p>
                 </Link>
               ) : (
@@ -189,7 +189,7 @@ const HeaderMain = () => {
                   className="flex items-center px-1 py-3 hover:bg-gray-100 transition"
                 >
                   <p className="ml-3 text-gray-600 text-sm font-medium">
-                    Login
+                    Đăng nhập
                   </p>
                 </Link>
               ) : (
@@ -199,7 +199,7 @@ const HeaderMain = () => {
                     onClick={() => signOut(auth)}
                   >
                     <p className="ml-3 text-gray-600 text-sm font-medium cursor-pointer">
-                      Logout
+                      Đăng xuất
                     </p>
                   </p>
                 </div>

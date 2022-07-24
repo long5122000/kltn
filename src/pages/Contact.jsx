@@ -7,16 +7,17 @@ const Contact = () => {
       <div className="bg-[#fff]">
         <div className="container pt-10 ">
           <h4 className="text-sm text-center text-[#666] font-medium">
-            Hi, friends!
+            Xin chào, những người bạn !
           </h4>
-          <h1 className="text-center text-3xl font-bold py-6">Contact Us</h1>
+          <h1 className="text-center text-3xl font-bold py-6">
+            Kết nối với chúng tôi
+          </h1>
           <p className="text-center pb-10 text-sm font-semibold text-[#666]">
-            The most important part of improving at photography has been sharing
-            it. Sign up for an Exposure account, <br />
-            or post regularly to Tumblr, or both. Tell people you’re trying to
-            get better at photography. When you talk about it, other <br />
-            people get excited about it. There are few plugins and apps
-            available for this purpose.
+            Công ty cổ phần Phát triển Công nghệ Dukamarketlà công ty chuyên
+            cung cấp dịch vụ thiết kế và quản trị nội dung website cho thị
+            trường châu Âu và Việt Nam. Được thành lập ngày 26/03/2019, công ty
+            hiện đang là đối tác đáng tin cậy, là người bạn đồng hành cùng các
+            doanh nghiệp và nhiều tập đoàn lớn.
           </p>
         </div>
         <div className="container">
@@ -24,13 +25,13 @@ const Contact = () => {
         </div>
         <div className="container py-10">
           <h4 className="text-sm text-center text-[#16bcdc] font-bold">
-            CONTACT US
+            Kết nối với chúng tôi
           </h4>
           <h3 className="text-center text-4xl text-[#222] font-medium pt-4 pb-3">
-            Hello, We are Dukamarket.
+            Xin chào, chúng tôi là dukamarket
           </h3>
           <h3 className="text-center text-4xl text-[#222] font-bold">
-            Contact Us For Any Questions
+            Liên hệ cho chúng tôi khi có bất kì thắc mắc nào
           </h3>
         </div>
         <div className="container grid gap-x-5 grid-cols-4 pb-5">

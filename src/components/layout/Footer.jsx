@@ -11,8 +11,8 @@ const Footer = () => {
               className="h-14 w-14 "
             />
             <div className="">
-              <h4 className="text-sm text-white font-bold">Free Delivery</h4>
-              <p className="text-[#9999]">For all orders over $120</p>
+              <h4 className="text-sm text-white font-bold">Hoàn tiền</h4>
+              <p className="text-[#9999]">Nếu hàng hóa có vấn đề</p>
             </div>
           </div>
           <div className="flex gap-4 py-10">
@@ -22,8 +22,10 @@ const Footer = () => {
               className="h-14 w-14 "
             />
             <div className="">
-              <h4 className="text-sm text-white font-bold">Free Delivery</h4>
-              <p className="text-[#9999]">For all orders over $120</p>
+              <h4 className="text-sm text-white font-bold">
+                Thanh toán an toàn
+              </h4>
+              <p className="text-[#9999]">Hoàn tiền nếu có vấn đề</p>
             </div>
           </div>
           <div className="flex gap-4 py-10">
@@ -33,8 +35,8 @@ const Footer = () => {
               className="h-14 w-14 "
             />
             <div className="">
-              <h4 className="text-sm text-white font-bold">Free Delivery</h4>
-              <p className="text-[#9999]">For all orders over $120</p>
+              <h4 className="text-sm text-white font-bold">Tư vấn 24/7</h4>
+              <p className="text-[#9999]">Hỗ trợ khách hàng 24/7</p>
             </div>
           </div>
           <div className="flex gap-4 py-10">
@@ -44,8 +46,10 @@ const Footer = () => {
               className="h-14 w-14 "
             />
             <div className="">
-              <h4 className="text-sm text-white font-bold">Free Delivery</h4>
-              <p className="text-[#9999]">For all orders over $120</p>
+              <h4 className="text-sm text-white font-bold">
+                Miễn phí vận chuyển
+              </h4>
+              <p className="text-[#9999]">Cho tất cả hóa đơn 2000$</p>
             </div>
           </div>
         </div>
@@ -53,11 +57,12 @@ const Footer = () => {
       <div className="container mt-10 flex gap-4">
         <div className="flex-3">
           <h3 className="font-medium capitalize text-lg mt-[18px] mb-[20px] text-white">
-            Download app
+            Tải ứng dụng
           </h3>
           <p className="text-sm text-[#999] mb-5">
-            Dukamarket App is now available on App Store & Google Play. Get it
-            now.
+            Ứng dụng Dukamarket hiện có sẵn trên App Store & Google Play.
+            <br />
+            Tải ngay
           </p>
           <div className="flex gap-1">
             <img src="../images/app-store.webp" alt="" className="w-[170px]" />
@@ -112,78 +117,77 @@ const Footer = () => {
         </div>
         <div className="flex-1">
           <h3 className="font-medium capitalize text-lg mt-[18px] mb-[20px] text-white">
-            Help & Customer Care
+            Chăm sóc khách hàng
           </h3>
           <ul className="list-none text-sm">
             <li className="no-underline mb-5">
-              <a className="text-[#999]">New Customer</a>
+              <a className="text-[#999]">Khách hàng mới</a>
             </li>
             <li className="no-underline mb-5">
-              <a className="text-[#999]">New Customer</a>
+              <a className="text-[#999]">Tạo tài khoản</a>
             </li>
             <li className="no-underline mb-5">
-              <a className="text-[#999]">New Customer</a>
+              <a className="text-[#999]">Đặt hàng</a>
             </li>
             <li className="no-underline mb-5">
-              <a className="text-[#999]">New Customer</a>
+              <a className="text-[#999]">Thanh toán</a>
             </li>
             <li className="no-underline mb-5">
-              <a className="text-[#999]">New Customer</a>
+              <a className="text-[#999]">Vấn đề khác</a>
             </li>
           </ul>
         </div>
         <div className="flex-1">
           <h3 className="font-medium capitalize text-lg mt-[18px] mb-[20px] text-white">
-            Customer service
+            Dịch vụ khách hàng
           </h3>
           <ul className="list-none text-sm">
             <li className="no-underline mb-5">
-              <a className="text-[#999]">New Customer</a>
+              <a className="text-[#999]">Trung tâm hỗ trợ</a>
             </li>
             <li className="no-underline mb-5">
-              <a className="text-[#999]">New Customer</a>
+              <a className="text-[#999]">Liên hệ</a>
             </li>
             <li className="no-underline mb-5">
-              <a className="text-[#999]">New Customer</a>
+              <a className="text-[#999]">Chính sách</a>
             </li>
             <li className="no-underline mb-5">
-              <a className="text-[#999]">New Customer</a>
+              <a className="text-[#999]">Điều khoản</a>
             </li>
             <li className="no-underline mb-5">
-              <a className="text-[#999]">New Customer</a>
+              <a className="text-[#999]">Hoàn tiền trực tuyến</a>
             </li>
           </ul>
         </div>
         <div className="flex-1">
           <h3 className="font-medium capitalize text-lg mt-[18px] mb-[20px] text-white">
-            Help & Customer Care
+            Tài khoản người dùng
           </h3>
           <ul className="list-none text-sm">
             <li className="no-underline mb-5">
-              <a className="text-[#999]">New Customer</a>
+              <a className="text-[#999]">Hỗ trợ thanh toán</a>
             </li>
             <li className="no-underline mb-5">
-              <a className="text-[#999]">New Customer</a>
+              <a className="text-[#999]">Hỗ trợ sản phẩm</a>
             </li>
             <li className="no-underline mb-5">
-              <a className="text-[#999]">New Customer</a>
+              <a className="text-[#999]">Mã giảm giá</a>
             </li>
             <li className="no-underline mb-5">
-              <a className="text-[#999]">New Customer</a>
+              <a className="text-[#999]">Giỏ hàng</a>
             </li>
             <li className="no-underline mb-5">
-              <a className="text-[#999]">New Customer</a>
+              <a className="text-[#999]">Danh sách yêu thích</a>
             </li>
           </ul>
         </div>
 
         <div className="flex-3">
           <h3 className="font-medium capitalize text-lg mt-[18px] mb-[20px] text-white">
-            Download app
+            Tải ứng dụng
           </h3>
           <p className="text-sm text-[#999] mb-5">
-            Dukamarket App is now available on App Store & Google Play. Get it
-            now.
+            Ứng dụng Dukamarket hiện có sẵn trên App Store & Google Play.
           </p>
           <div className="flex mb-[29px]">
             <div className="flex-1">
@@ -196,15 +200,15 @@ const Footer = () => {
             <button className="p-4 bg-primary text-white">Subscribe</button>
           </div>
           <span className="text-[#666] ">
-            By providing your email address, you agree to our
+            Bằng cách cung cấp địa chỉ email của bạn, bạn đồng ý
             <a href="#" className="italic text-sm underline underline-offset-1">
               {" "}
-              Privacy Policy
+              chính sách
             </a>{" "}
-            and
+            và
             <a href="#" className="italic text-sm underline">
               {" "}
-              Terms of Service.
+              bảo mật
             </a>
           </span>
         </div>
