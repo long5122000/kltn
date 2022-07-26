@@ -6,7 +6,17 @@ import LoadingSpinner from "../loading/LoadingSpinner";
 
 const ButtonStyles = styled.button`
   cursor: pointer;
-  padding: 0 25px;
+
+  ${(props) =>
+    props.size === "small" &&
+    css`
+      padding: 0 15px;
+    `};
+  ${(props) =>
+    props.size === "normal" &&
+    css`
+      padding: 0 25px;
+    `};
   line-height: 1;
   color: white;
   border-radius: 8px;
@@ -61,6 +71,7 @@ const Button = ({
   onClick = () => {},
   children,
   kind = "primary",
+  size = "normal",
   ...props
 }) => {
   const { isLoading, to } = props;
@@ -75,7 +86,13 @@ const Button = ({
     );
   }
   return (
-    <ButtonStyles kind={kind} type={type} onClick={onClick} {...props}>
+    <ButtonStyles
+      kind={kind}
+      size={size}
+      type={type}
+      onClick={onClick}
+      {...props}
+    >
       {child}
     </ButtonStyles>
   );

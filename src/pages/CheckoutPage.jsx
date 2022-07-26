@@ -37,12 +37,14 @@ const CheckoutPage = () => {
   const {
     handleSubmit,
     control,
+    reset,
     formState: { isSubmitting, errors, isValid },
   } = useForm({
     mode: "onChange",
   });
   const navigate = useNavigate();
   const { userInfo } = useAuth();
+  const userId = userInfo.uid;
   const cart = useSelector((state) => state.count.cart);
   console.log(cart);
   const dispatch = useDispatch();
@@ -58,7 +60,15 @@ const CheckoutPage = () => {
   data.map((item) => {
     sum += item;
   });
-  console.log(sum);
+  useEffect(() => {
+    async function fetchData() {
+      if (!userId) navigate("/sign-in");
+      const colRef = doc(db, "users", userId);
+      const docData = await getDoc(colRef);
+      reset(docData && docData.data());
+    }
+    fetchData();
+  }, [userId, reset]);
   const handleCheckout = async (values) => {
     const newValues = { ...values };
     const colRef = collection(db, "AuthCheckOut");
@@ -82,11 +92,11 @@ const CheckoutPage = () => {
   return (
     <>
       <div className="container ">
-        <h2 className="font-medium text-center text-4xl my-5">Checkout</h2>
+        <h2 className="font-medium text-center text-4xl my-5">Thanh toán</h2>
         <div className="grid grid-cols-2 p-10 gap-10">
           <div className="col-span-1 bg-white ">
             <div className="p-14 border borer-grayse">
-              <h3 className="font-bold mb-5 text-xl">Information</h3>
+              <h3 className="font-bold mb-5 text-xl">Thông tin người dùng</h3>
 
               <form
                 className="form"
@@ -94,7 +104,7 @@ const CheckoutPage = () => {
                 onSubmit={handleSubmit(handleCheckout)}
               >
                 <Field>
-                  <Label htmlFor="text">Address</Label>
+                  <Label htmlFor="text">Địa chỉ</Label>
                   <Input
                     type="text"
                     name="address"
@@ -103,9 +113,10 @@ const CheckoutPage = () => {
                   ></Input>
                 </Field>
                 <Field>
-                  <Label htmlFor="text">Phone</Label>
+                  <Label htmlFor="text">Điện thoại</Label>
                   <Input
-                    type="number"
+                    type="tel"
+                    pattern="[0-9]*"
                     name="phone"
                     placeholder="Enter your  Phone"
                     control={control}
@@ -113,9 +124,6 @@ const CheckoutPage = () => {
                 </Field>
 
                 <Button
-                  // onClick={() => {
-                  //   dispatch(resetCart());
-                  // }}
                   kind="favourite"
                   type="submit"
                   style={{
@@ -123,8 +131,8 @@ const CheckoutPage = () => {
                     maxWidth: 300,
                     margin: "0 auto",
                   }}
-                  // isLoading={isSubmitting}
-                  // disabled={isSubmitting}
+                  isLoading={isSubmitting}
+                  disabled={isSubmitting}
                 >
                   Check out
                 </Button>

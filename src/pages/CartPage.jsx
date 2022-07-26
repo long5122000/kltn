@@ -84,7 +84,7 @@ const CartPage = () => {
   return (
     <div>
       <div className="container mb-5">
-        <h2 className="font-medium text-center text-4xl my-5">Shopping Cart</h2>
+        <h2 className="font-medium text-center text-4xl my-5">Giỏ hàng</h2>
         <div className="grid grid-cols-4 gap-3">
           <div className="col-span-3 ">
             <Table
@@ -94,10 +94,10 @@ const CartPage = () => {
             >
               <thead>
                 <tr>
-                  <th className="border border-[#dee2e6]">Item</th>
-                  <th className="border border-[#dee2e6]">Price</th>
-                  <th className="border border-[#dee2e6]">Qty</th>
-                  <th className="border border-[#dee2e6]">Subtotal</th>
+                  <th className="border border-[#dee2e6]">Sản phẩm</th>
+                  <th className="border border-[#dee2e6]">Giá </th>
+                  <th className="border border-[#dee2e6]">Số lượng</th>
+                  <th className="border border-[#dee2e6]">Tổng tiền</th>
                 </tr>
               </thead>
               <tbody>
@@ -253,29 +253,39 @@ const CartPage = () => {
           </div>
           <div className="col-span-1 bg-white">
             <div className="border-b-[1px] border-[#dee2e6]">
-              <h3 className="text-center py-4 font-medium text-xl">Summary</h3>
+              <h3 className="text-center py-4 font-medium text-xl">Bảng giá</h3>
             </div>
             <div className="border-b-[1px] border-[#dee2e6]">
               <div className="flex justify-between px-5 pt-3 ">
-                <span className="font-bold ">Subtotal</span>
+                <span className="font-bold ">Tổng</span>
                 <span>{sum}$</span>
               </div>
               <div className="flex justify-between px-5 pt-3">
-                <span className="font-bold ">Shipping</span>
+                <span className="font-bold ">Vận chuyển</span>
                 <span>15$</span>
               </div>
               <div className="flex justify-between px-5 py-3">
-                <span className="font-bold ">Order Total</span>
+                <span className="font-bold ">Tổng tiền</span>
                 <span>{sum + 15}$</span>
               </div>
             </div>
             <div className="pt-4">
-              <button
-                onClick={() => navigate(`/checkout`)}
-                className="w-full py-4  text-white bg-[#16bcdc]"
-              >
-                Proceed to checkout
-              </button>
+              {sum === 0 ? (
+                <button
+                  disabled
+                  onClick={() => navigate(`/checkout`)}
+                  className="w-full py-4  text-white bg-[#a4d9e4]"
+                >
+                  Tiếp tục thanh toán
+                </button>
+              ) : (
+                <button
+                  onClick={() => navigate(`/checkout`)}
+                  className="w-full py-4  text-white bg-[#16bcdc]"
+                >
+                  Tiếp tục thanh toán
+                </button>
+              )}
             </div>
           </div>
         </div>

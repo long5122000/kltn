@@ -175,14 +175,18 @@ const HeaderMain = () => {
               ) : (
                 ""
               )}
-              {/* <Link
-                to={`/info`}
-                className="flex items-center px-1 py-3 hover:bg-gray-100 transition"
-              >
-                <p className="ml-3 text-gray-600 text-sm font-medium">
-                  My Info
-                </p>
-              </Link> */}
+              {userInfo ? (
+                <Link
+                  to={`/info`}
+                  className="flex items-center px-1 py-3 hover:bg-gray-100 transition"
+                >
+                  <p className="ml-3 text-gray-600 text-sm font-medium">
+                    Thông tin tài khoản
+                  </p>
+                </Link>
+              ) : (
+                ""
+              )}
               {!userInfo ? (
                 <Link
                   to={`/sign-in`}

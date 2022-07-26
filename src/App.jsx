@@ -36,6 +36,7 @@ import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import Contact from "./pages/Contact";
 import DashboardPage from "./pages/DashboardPage";
+import InformationPage from "./pages/InformationPage";
 import MyBill from "./pages/MyBill";
 import NotFoundPage from "./pages/NotFoundPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
@@ -94,6 +95,10 @@ function App() {
                 ></Route>
                 <Route path="/contact" element={<Contact></Contact>}></Route>
                 <Route path="/about" element={<About></About>}></Route>
+                <Route
+                  path="/info"
+                  element={<InformationPage></InformationPage>}
+                ></Route>
                 <Route
                   path="/checkout"
                   element={<CheckoutPage></CheckoutPage>}
